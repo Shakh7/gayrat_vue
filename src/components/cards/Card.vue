@@ -17,10 +17,10 @@
 
         <!--begin::Action-->
         <button
-          type="button"
-          class="btn btn-primary er fs-6 px-8 py-4"
-          data-bs-toggle="modal"
-          :data-bs-target="`#${modalId}`"
+            type="button"
+            class="btn btn-primary er fs-6 px-8 py-4"
+            data-bs-toggle="modal"
+            :data-bs-target="`#${modalId}`"
         >
           {{ buttonText }}
         </button>
@@ -30,7 +30,7 @@
 
       <!--begin::Illustration-->
       <div class="text-center px-5">
-        <img :src="image" alt="" class="mw-100 mh-300px" />
+        <img :src="image" alt="" class="mw-100 mh-300px"/>
       </div>
       <!--end::Illustration-->
     </div>
@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "modal-card",

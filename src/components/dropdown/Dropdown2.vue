@@ -1,8 +1,8 @@
 <template>
   <!--begin::Menu 2-->
   <div
-    class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semobold w-200px"
-    data-kt-menu="true"
+      class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semobold w-200px"
+      data-kt-menu="true"
   >
     <!--begin::Menu item-->
     <div class="menu-item px-3">
@@ -30,10 +30,10 @@
 
     <!--begin::Menu item-->
     <div
-      class="menu-item px-3"
-      data-kt-menu-trigger="hover"
-      data-kt-menu-placement="right-start"
-      data-kt-menu-flip="left-start, top"
+        class="menu-item px-3"
+        data-kt-menu-trigger="hover"
+        data-kt-menu-placement="right-start"
+        data-kt-menu-flip="left-start, top"
     >
       <!--begin::Menu item-->
       <a href="#" class="menu-link px-3">
@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "dropdown-2",

@@ -12,7 +12,7 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  base: "/metronic8/vue/demo8/",
+  // base: "/metronic8/vue/demo8/",
   build: {
     chunkSizeWarningLimit: 3000,
   },

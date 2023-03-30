@@ -9,7 +9,7 @@
       <div class="menu-content d-flex align-items-center px-3">
         <!--begin::Avatar-->
         <div class="symbol symbol-50px me-5">
-          <img alt="Logo" :src="getAssetPath('media/avatars/300-1.jpg')" />
+          <img alt="Logo" :src="getAssetPath('media/avatars/300-1.jpg')"/>
         </div>
         <!--end::Avatar-->
 
@@ -298,11 +298,11 @@
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent, computed } from "vue";
-import { useI18n } from "vue-i18n";
-import { useAuthStore } from "@/stores/auth";
-import { useRouter } from "vue-router";
+import {getAssetPath} from "@/core/helpers/assets";
+import {defineComponent, computed} from "vue";
+import {useI18n} from "vue-i18n";
+import {useAuthStore} from "@/stores/auth";
+import {useRouter} from "vue-router";
 
 export default defineComponent({
   name: "kt-user-menu",
@@ -341,7 +341,7 @@ export default defineComponent({
 
     const signOut = () => {
       store.logout();
-      router.push({ name: "sign-in" });
+      router.push({name: "sign-in"});
     };
 
     const setLang = (lang: string) => {

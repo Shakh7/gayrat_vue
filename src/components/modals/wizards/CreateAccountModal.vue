@@ -1,11 +1,11 @@
 <template>
   <!--begin::Modal - Create account-->
   <div
-    class="modal fade"
-    id="kt_modal_create_account"
-    ref="createAccountModalRef"
-    tabindex="-1"
-    aria-hidden="true"
+      class="modal fade"
+      id="kt_modal_create_account"
+      ref="createAccountModalRef"
+      tabindex="-1"
+      aria-hidden="true"
   >
     <!--begin::Modal dialog-->
     <div class="modal-dialog mw-1000px">
@@ -19,12 +19,12 @@
 
           <!--begin::Close-->
           <div
-            class="btn btn-sm btn-icon btn-active-color-primary"
-            data-bs-dismiss="modal"
+              class="btn btn-sm btn-icon btn-active-color-primary"
+              data-bs-dismiss="modal"
           >
             <span class="svg-icon svg-icon-1">
               <inline-svg
-                :src="getAssetPath('media/icons/duotune/arrows/arr061.svg')"
+                  :src="getAssetPath('media/icons/duotune/arrows/arr061.svg')"
               />
             </span>
           </div>
@@ -36,9 +36,9 @@
         <div class="modal-body scroll-y m-5">
           <!--begin::Stepper-->
           <div
-            ref="createAccountRef"
-            class="stepper stepper-links d-flex flex-column"
-            id="kt_create_account_stepper"
+              ref="createAccountRef"
+              class="stepper stepper-links d-flex flex-column"
+              id="kt_create_account_stepper"
           >
             <!--begin::Nav-->
             <div class="stepper-nav py-5">
@@ -76,10 +76,10 @@
 
             <!--begin::Form-->
             <form
-              class="mx-auto mw-600px w-100 py-10"
-              novalidate
-              id="kt_create_account_form"
-              @submit="handleStep"
+                class="mx-auto mw-600px w-100 py-10"
+                novalidate
+                id="kt_create_account_form"
+                @submit="handleStep"
             >
               <!--begin::Step 1-->
               <div class="current" data-kt-stepper-element="content">
@@ -91,9 +91,9 @@
                     <h2 class="fw-bold d-flex align-items-center text-dark">
                       Choose Account Type
                       <i
-                        class="fas fa-exclamation-circle ms-2 fs-7"
-                        data-bs-toggle="tooltip"
-                        title="Billing is issued based on your selected account type"
+                          class="fas fa-exclamation-circle ms-2 fs-7"
+                          data-bs-toggle="tooltip"
+                          title="Billing is issued based on your selected account type"
                       ></i>
                     </h2>
                     <!--end::Title-->
@@ -115,21 +115,21 @@
                       <div class="col-lg-6">
                         <!--begin::Option-->
                         <input
-                          type="radio"
-                          class="btn-check"
-                          name="accountType"
-                          value="personal"
-                          checked
-                          id="kt_create_account_form_account_type_personal"
-                          v-model="formData.accountType"
+                            type="radio"
+                            class="btn-check"
+                            name="accountType"
+                            value="personal"
+                            checked
+                            id="kt_create_account_form_account_type_personal"
+                            v-model="formData.accountType"
                         />
                         <label
-                          class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10"
-                          for="kt_create_account_form_account_type_personal"
+                            class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10"
+                            for="kt_create_account_form_account_type_personal"
                         >
                           <span class="svg-icon svg-icon-3x me-5">
                             <inline-svg
-                              :src="
+                                :src="
                                 getAssetPath(
                                   '/media/icons/duotune/communication/com005.svg'
                                 )
@@ -143,7 +143,7 @@
                               Personal Account
                             </span>
                             <span class="text-gray-400 fw-semobold fs-6"
-                              >If you need more info, please check it out</span
+                            >If you need more info, please check it out</span
                             >
                           </span>
                           <!--end::Info-->
@@ -156,20 +156,20 @@
                       <div class="col-lg-6">
                         <!--begin::Option-->
                         <input
-                          type="radio"
-                          class="btn-check"
-                          name="accountType"
-                          value="corporate"
-                          id="kt_create_account_form_account_type_corporate"
-                          v-model="formData.accountType"
+                            type="radio"
+                            class="btn-check"
+                            name="accountType"
+                            value="corporate"
+                            id="kt_create_account_form_account_type_corporate"
+                            v-model="formData.accountType"
                         />
                         <label
-                          class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center"
-                          for="kt_create_account_form_account_type_corporate"
+                            class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center"
+                            for="kt_create_account_form_account_type_corporate"
                         >
                           <span class="svg-icon svg-icon-3x me-5">
                             <inline-svg
-                              :src="
+                                :src="
                                 getAssetPath(
                                   '/media/icons/duotune/finance/fin006.svg'
                                 )
@@ -180,10 +180,10 @@
                           <!--begin::Info-->
                           <span class="d-block fw-semobold text-start">
                             <span class="text-dark fw-bold d-block fs-4 mb-2"
-                              >Corporate Account</span
+                            >Corporate Account</span
                             >
                             <span class="text-gray-400 fw-semobold fs-6"
-                              >Create corporate account to mane users</span
+                            >Create corporate account to mane users</span
                             >
                           </span>
                           <!--end::Info-->
@@ -225,9 +225,9 @@
                     <label class="d-flex align-items-center form-label mb-3">
                       Specify Team Size
                       <i
-                        class="fas fa-exclamation-circle ms-2 fs-7"
-                        data-bs-toggle="tooltip"
-                        title="Provide your team size to help us setup your billing"
+                          class="fas fa-exclamation-circle ms-2 fs-7"
+                          data-bs-toggle="tooltip"
+                          title="Provide your team size to help us setup your billing"
                       ></i>
                     </label>
                     <!--end::Label-->
@@ -238,17 +238,17 @@
                       <div class="col">
                         <!--begin::Option-->
                         <input
-                          type="radio"
-                          class="btn-check"
-                          checked
-                          name="teamSize"
-                          value="1-1"
-                          id="kt_one_one_select"
-                          v-model="formData.teamSize"
+                            type="radio"
+                            class="btn-check"
+                            checked
+                            name="teamSize"
+                            value="1-1"
+                            id="kt_one_one_select"
+                            v-model="formData.teamSize"
                         />
                         <label
-                          class="btn btn-outline btn-outline-dashed btn-outline-default w-100 p-4"
-                          for="kt_one_one_select"
+                            class="btn btn-outline btn-outline-dashed btn-outline-default w-100 p-4"
+                            for="kt_one_one_select"
                         >
                           <span class="fw-bold fs-3">1-1</span>
                         </label>
@@ -260,16 +260,16 @@
                       <div class="col">
                         <!--begin::Option-->
                         <input
-                          type="radio"
-                          class="btn-check"
-                          name="teamSize"
-                          value="2-10"
-                          id="kt_two_ten_select"
-                          v-model="formData.teamSize"
+                            type="radio"
+                            class="btn-check"
+                            name="teamSize"
+                            value="2-10"
+                            id="kt_two_ten_select"
+                            v-model="formData.teamSize"
                         />
                         <label
-                          class="btn btn-outline btn-outline-dashed btn-outline-default w-100 p-4"
-                          for="kt_two_ten_select"
+                            class="btn btn-outline btn-outline-dashed btn-outline-default w-100 p-4"
+                            for="kt_two_ten_select"
                         >
                           <span class="fw-bold fs-3">2-10</span>
                         </label>
@@ -281,16 +281,16 @@
                       <div class="col">
                         <!--begin::Option-->
                         <input
-                          type="radio"
-                          class="btn-check"
-                          name="teamSize"
-                          value="10-50"
-                          id="kt_ten_fifty_select"
-                          v-model="formData.teamSize"
+                            type="radio"
+                            class="btn-check"
+                            name="teamSize"
+                            value="10-50"
+                            id="kt_ten_fifty_select"
+                            v-model="formData.teamSize"
                         />
                         <label
-                          class="btn btn-outline btn-outline-dashed btn-outline-default w-100 p-4"
-                          for="kt_ten_fifty_select"
+                            class="btn btn-outline btn-outline-dashed btn-outline-default w-100 p-4"
+                            for="kt_ten_fifty_select"
                         >
                           <span class="fw-bold fs-3">10-50</span>
                         </label>
@@ -302,16 +302,16 @@
                       <div class="col">
                         <!--begin::Option-->
                         <input
-                          type="radio"
-                          class="btn-check"
-                          name="teamSize"
-                          value="50+"
-                          id="kt_fifty_select"
-                          v-model="formData.teamSize"
+                            type="radio"
+                            class="btn-check"
+                            name="teamSize"
+                            value="50+"
+                            id="kt_fifty_select"
+                            v-model="formData.teamSize"
                         />
                         <label
-                          class="btn btn-outline btn-outline-dashed btn-outline-default w-100 p-4"
-                          for="kt_fifty_select"
+                            class="btn btn-outline btn-outline-dashed btn-outline-default w-100 p-4"
+                            for="kt_fifty_select"
                         >
                           <span class="fw-bold fs-3">50+</span>
                         </label>
@@ -338,15 +338,15 @@
 
                     <!--begin::Input-->
                     <Field
-                      type="text"
-                      class="form-control form-control-lg form-control-solid"
-                      name="teamAccountName"
-                      placeholder=""
-                      value=""
+                        type="text"
+                        class="form-control form-control-lg form-control-solid"
+                        name="teamAccountName"
+                        placeholder=""
+                        value=""
                     />
                     <ErrorMessage
-                      class="fv-plugins-message-container invalid-feedback"
-                      name="teamAccountName"
+                        class="fv-plugins-message-container invalid-feedback"
+                        name="teamAccountName"
                     />
                     <!--end::Input-->
                   </div>
@@ -358,9 +358,9 @@
                     <label class="d-flex align-items-center form-label mb-5">
                       Select Account Plan
                       <i
-                        class="fas fa-exclamation-circle ms-2 fs-7"
-                        data-bs-toggle="tooltip"
-                        title="Monthly billing will be based on your account plan"
+                          class="fas fa-exclamation-circle ms-2 fs-7"
+                          data-bs-toggle="tooltip"
+                          title="Monthly billing will be based on your account plan"
                       ></i>
                     </label>
                     <!--end::Label-->
@@ -375,10 +375,10 @@
                           <span class="symbol symbol-50px me-6">
                             <span class="symbol-label">
                               <span
-                                class="svg-icon svg-icon-1 svg-icon-gray-600"
+                                  class="svg-icon svg-icon-1 svg-icon-gray-600"
                               >
                                 <inline-svg
-                                  :src="
+                                    :src="
                                     getAssetPath(
                                       '/media/icons/duotune/finance/fin001.svg'
                                     )
@@ -392,11 +392,11 @@
                           <!--begin::Description-->
                           <span class="d-flex flex-column">
                             <span
-                              class="fw-bold text-gray-800 text-hover-primary fs-5"
-                              >Company Account</span
+                                class="fw-bold text-gray-800 text-hover-primary fs-5"
+                            >Company Account</span
                             >
                             <span class="fs-6 fw-semobold text-gray-400"
-                              >Use images to enhance your post flow</span
+                            >Use images to enhance your post flow</span
                             >
                           </span>
                           <!--end:Description-->
@@ -405,14 +405,14 @@
 
                         <!--begin:Input-->
                         <span
-                          class="form-check form-check-custom form-check-solid"
+                            class="form-check form-check-custom form-check-solid"
                         >
                           <input
-                            class="form-check-input"
-                            type="radio"
-                            name="accountPlan"
-                            value="1"
-                            v-model="formData.accountPlan"
+                              class="form-check-input"
+                              type="radio"
+                              name="accountPlan"
+                              value="1"
+                              v-model="formData.accountPlan"
                           />
                         </span>
                         <!--end:Input-->
@@ -427,10 +427,10 @@
                           <span class="symbol symbol-50px me-6">
                             <span class="symbol-label">
                               <span
-                                class="svg-icon svg-icon-1 svg-icon-gray-600"
+                                  class="svg-icon svg-icon-1 svg-icon-gray-600"
                               >
                                 <inline-svg
-                                  :src="
+                                    :src="
                                     getAssetPath(
                                       '/media/icons/duotune/graphs/gra006.svg'
                                     )
@@ -444,11 +444,11 @@
                           <!--begin::Description-->
                           <span class="d-flex flex-column">
                             <span
-                              class="fw-bold text-gray-800 text-hover-primary fs-5"
-                              >Developer Account</span
+                                class="fw-bold text-gray-800 text-hover-primary fs-5"
+                            >Developer Account</span
                             >
                             <span class="fs-6 fw-semobold text-gray-400"
-                              >Use images to your post time</span
+                            >Use images to your post time</span
                             >
                           </span>
                           <!--end:Description-->
@@ -457,15 +457,15 @@
 
                         <!--begin:Input-->
                         <span
-                          class="form-check form-check-custom form-check-solid"
+                            class="form-check form-check-custom form-check-solid"
                         >
                           <input
-                            class="form-check-input"
-                            type="radio"
-                            checked
-                            name="accountPlan"
-                            value="2"
-                            v-model="formData.accountPlan"
+                              class="form-check-input"
+                              type="radio"
+                              checked
+                              name="accountPlan"
+                              value="2"
+                              v-model="formData.accountPlan"
                           />
                         </span>
                         <!--end:Input-->
@@ -480,10 +480,10 @@
                           <span class="symbol symbol-50px me-6">
                             <span class="symbol-label">
                               <span
-                                class="svg-icon svg-icon-1 svg-icon-gray-600"
+                                  class="svg-icon svg-icon-1 svg-icon-gray-600"
                               >
                                 <inline-svg
-                                  :src="
+                                    :src="
                                     getAssetPath(
                                       '/media/icons/duotune/graphs/gra008.svg'
                                     )
@@ -497,11 +497,11 @@
                           <!--begin::Description-->
                           <span class="d-flex flex-column">
                             <span
-                              class="fw-bold text-gray-800 text-hover-primary fs-5"
-                              >Testing Account</span
+                                class="fw-bold text-gray-800 text-hover-primary fs-5"
+                            >Testing Account</span
                             >
                             <span class="fs-6 fw-semobold text-gray-400"
-                              >Use images to enhance time travel rivers</span
+                            >Use images to enhance time travel rivers</span
                             >
                           </span>
                           <!--end:Description-->
@@ -510,14 +510,14 @@
 
                         <!--begin:Input-->
                         <span
-                          class="form-check form-check-custom form-check-solid"
+                            class="form-check form-check-custom form-check-solid"
                         >
                           <input
-                            class="form-check-input"
-                            type="radio"
-                            name="accountPlan"
-                            value="3"
-                            v-model="formData.accountPlan"
+                              class="form-check-input"
+                              type="radio"
+                              name="accountPlan"
+                              value="3"
+                              v-model="formData.accountPlan"
                           />
                         </span>
                         <!--end:Input-->
@@ -559,13 +559,13 @@
 
                     <!--begin::Input-->
                     <Field
-                      name="businessName"
-                      class="form-control form-control-lg form-control-solid"
-                      value="Keenthemes Inc."
+                        name="businessName"
+                        class="form-control form-control-lg form-control-solid"
+                        value="Keenthemes Inc."
                     />
                     <ErrorMessage
-                      class="fv-plugins-message-container invalid-feedback"
-                      name="businessName"
+                        class="fv-plugins-message-container invalid-feedback"
+                        name="businessName"
                     />
                     <!--end::Input-->
                   </div>
@@ -578,11 +578,11 @@
                       <span class="required">Shortened Descriptor</span>
 
                       <i
-                        class="fas fa-exclamation-circle ms-2 fs-7"
-                        data-bs-toggle="popover"
-                        data-bs-trigger="hover"
-                        data-bs-html="true"
-                        data-bs-content="
+                          class="fas fa-exclamation-circle ms-2 fs-7"
+                          data-bs-toggle="popover"
+                          data-bs-trigger="hover"
+                          data-bs-html="true"
+                          data-bs-content="
                     <div class='p-4 rounded bg-light'>
                         <div class='d-flex flex-stack text-muted mb-4'>
                             <i class='fas fa-university fs-3 me-3'></i>
@@ -620,13 +620,13 @@
 
                     <!--begin::Input-->
                     <Field
-                      name="shortenedDescriptor"
-                      class="form-control form-control-lg form-control-solid"
-                      value="KEENTHEMES"
+                        name="shortenedDescriptor"
+                        class="form-control form-control-lg form-control-solid"
+                        value="KEENTHEMES"
                     />
                     <ErrorMessage
-                      class="fv-plugins-message-container invalid-feedback"
-                      name="shortenedDescriptor"
+                        class="fv-plugins-message-container invalid-feedback"
+                        name="shortenedDescriptor"
                     />
                     <!--end::Input-->
 
@@ -647,9 +647,9 @@
 
                     <!--begin::Input-->
                     <Field
-                      name="corporationType"
-                      class="form-select form-select-lg form-select-solid"
-                      as="select"
+                        name="corporationType"
+                        class="form-select form-select-lg form-select-solid"
+                        as="select"
                     >
                       <option></option>
                       <option label="Corporation" value="1">Corporation</option>
@@ -665,8 +665,8 @@
                       </option>
                     </Field>
                     <ErrorMessage
-                      class="fv-plugins-message-container invalid-feedback"
-                      name="corporationType"
+                        class="fv-plugins-message-container invalid-feedback"
+                        name="corporationType"
                     />
                     <!--end::Input-->
                   </div>
@@ -680,14 +680,14 @@
 
                     <!--begin::Input-->
                     <Field
-                      type="text"
-                      name="businessDescription"
-                      class="form-control form-control-lg form-control-solid"
-                      rows="3"
+                        type="text"
+                        name="businessDescription"
+                        class="form-control form-control-lg form-control-solid"
+                        rows="3"
                     />
                     <ErrorMessage
-                      class="fv-plugins-message-container invalid-feedback"
-                      name="businessDescription"
+                        class="fv-plugins-message-container invalid-feedback"
+                        name="businessDescription"
                     />
                     <!--end::Input-->
                   </div>
@@ -697,19 +697,19 @@
                   <div class="fv-row mb-0">
                     <!--begin::Label-->
                     <label class="fs-6 fw-semobold form-label required"
-                      >Contact Email</label
+                    >Contact Email</label
                     >
                     <!--end::Label-->
 
                     <!--begin::Input-->
                     <Field
-                      name="contactEmail"
-                      class="form-control form-control-lg form-control-solid"
-                      value="corp@support.com"
+                        name="contactEmail"
+                        class="form-control form-control-lg form-control-solid"
+                        value="corp@support.com"
                     />
                     <ErrorMessage
-                      class="fv-plugins-message-container invalid-feedback"
-                      name="contactEmail"
+                        class="fv-plugins-message-container invalid-feedback"
+                        name="contactEmail"
                     />
                     <!--end::Input-->
                   </div>
@@ -742,26 +742,26 @@
                   <div class="d-flex flex-column mb-7 fv-row">
                     <!--begin::Label-->
                     <label
-                      class="d-flex align-items-center fs-6 fw-semobold form-label mb-2"
+                        class="d-flex align-items-center fs-6 fw-semobold form-label mb-2"
                     >
                       <span class="required">Name On Card</span>
                       <i
-                        class="fas fa-exclamation-circle ms-2 fs-7"
-                        data-bs-toggle="tooltip"
-                        title="Specify a card holder's name"
+                          class="fas fa-exclamation-circle ms-2 fs-7"
+                          data-bs-toggle="tooltip"
+                          title="Specify a card holder's name"
                       ></i>
                     </label>
                     <!--end::Label-->
 
                     <Field
-                      type="text"
-                      class="form-control form-control-solid"
-                      placeholder=""
-                      name="nameOnCard"
+                        type="text"
+                        class="form-control form-control-solid"
+                        placeholder=""
+                        name="nameOnCard"
                     />
                     <div class="fv-plugins-message-container">
                       <div class="fv-help-block">
-                        <ErrorMessage name="nameOnCard" />
+                        <ErrorMessage name="nameOnCard"/>
                       </div>
                     </div>
                   </div>
@@ -771,7 +771,7 @@
                   <div class="d-flex flex-column mb-7 fv-row">
                     <!--begin::Label-->
                     <label class="required fs-6 fw-semobold form-label mb-2"
-                      >Card Number</label
+                    >Card Number</label
                     >
                     <!--end::Label-->
 
@@ -779,42 +779,42 @@
                     <div class="position-relative">
                       <!--begin::Input-->
                       <Field
-                        type="text"
-                        class="form-control form-control-solid"
-                        placeholder="Enter card number"
-                        name="cardNumber"
+                          type="text"
+                          class="form-control form-control-solid"
+                          placeholder="Enter card number"
+                          name="cardNumber"
                       />
                       <div class="fv-plugins-message-container">
                         <div class="fv-help-block">
-                          <ErrorMessage name="cardNumber" />
+                          <ErrorMessage name="cardNumber"/>
                         </div>
                       </div>
                       <!--end::Input-->
 
                       <!--begin::Card logos-->
                       <div
-                        class="position-absolute translate-middle-y top-50 end-0 me-5"
+                          class="position-absolute translate-middle-y top-50 end-0 me-5"
                       >
                         <img
-                          :src="getAssetPath('media/svg/card-logos/visa.svg')"
-                          alt=""
-                          class="h-25px"
+                            :src="getAssetPath('media/svg/card-logos/visa.svg')"
+                            alt=""
+                            class="h-25px"
                         />
                         <img
-                          :src="
+                            :src="
                             getAssetPath('media/svg/card-logos/mastercard.svg')
                           "
-                          alt=""
-                          class="h-25px"
+                            alt=""
+                            class="h-25px"
                         />
                         <img
-                          :src="
+                            :src="
                             getAssetPath(
                               '/media/svg/card-logos/american-express.svg'
                             )
                           "
-                          alt=""
-                          class="h-25px"
+                            alt=""
+                            class="h-25px"
                         />
                       </div>
                       <!--end::Card logos-->
@@ -829,7 +829,7 @@
                     <div class="col-md-8 fv-row">
                       <!--begin::Label-->
                       <label class="required fs-6 fw-semobold form-label mb-2"
-                        >Expiration Date</label
+                      >Expiration Date</label
                       >
                       <!--end::Label-->
 
@@ -838,12 +838,12 @@
                         <!--begin::Col-->
                         <div class="col-6">
                           <Field
-                            name="expirationMonth"
-                            class="form-select form-select-solid"
-                            data-control="select2"
-                            data-hide-search="true"
-                            data-placeholder="Month"
-                            as="select"
+                              name="expirationMonth"
+                              class="form-select form-select-solid"
+                              data-control="select2"
+                              data-hide-search="true"
+                              data-placeholder="Month"
+                              as="select"
                           >
                             <option></option>
                             <template v-for="i in 12" :key="i">
@@ -854,7 +854,7 @@
                           </Field>
                           <div class="fv-plugins-message-container">
                             <div class="fv-help-block">
-                              <ErrorMessage name="expirationMonth" />
+                              <ErrorMessage name="expirationMonth"/>
                             </div>
                           </div>
                         </div>
@@ -863,20 +863,20 @@
                         <!--begin::Col-->
                         <div class="col-6">
                           <Field
-                            name="expirationYear"
-                            class="form-select form-select-solid"
-                            data-control="select2"
-                            data-hide-search="true"
-                            data-placeholder="Year"
-                            as="select"
+                              name="expirationYear"
+                              class="form-select form-select-solid"
+                              data-control="select2"
+                              data-hide-search="true"
+                              data-placeholder="Year"
+                              as="select"
                           >
                             <option></option>
                             <template v-for="i in 10" :key="i">
                               <option
-                                :label="
+                                  :label="
                                   (new Date().getFullYear() + i).toString()
                                 "
-                                :value="
+                                  :value="
                                   (new Date().getFullYear() + i).toString()
                                 "
                               >
@@ -886,7 +886,7 @@
                           </Field>
                           <div class="fv-plugins-message-container">
                             <div class="fv-help-block">
-                              <ErrorMessage name="expirationYear" />
+                              <ErrorMessage name="expirationYear"/>
                             </div>
                           </div>
                         </div>
@@ -900,13 +900,13 @@
                     <div class="col-md-4 fv-row">
                       <!--begin::Label-->
                       <label
-                        class="d-flex align-items-center fs-6 fw-semobold form-label mb-2"
+                          class="d-flex align-items-center fs-6 fw-semobold form-label mb-2"
                       >
                         <span class="required">CVV</span>
                         <i
-                          class="fas fa-exclamation-circle ms-2 fs-7"
-                          data-bs-toggle="tooltip"
-                          title="Enter a card CVV code"
+                            class="fas fa-exclamation-circle ms-2 fs-7"
+                            data-bs-toggle="tooltip"
+                            title="Enter a card CVV code"
                         ></i>
                       </label>
                       <!--end::Label-->
@@ -915,22 +915,22 @@
                       <div class="position-relative">
                         <!--begin::Input-->
                         <Field
-                          type="text"
-                          class="form-control form-control-solid"
-                          minlength="3"
-                          maxlength="4"
-                          placeholder="CVV"
-                          name="cvv"
+                            type="text"
+                            class="form-control form-control-solid"
+                            minlength="3"
+                            maxlength="4"
+                            placeholder="CVV"
+                            name="cvv"
                         />
                         <!--end::Input-->
 
                         <!--begin::CVV icon-->
                         <div
-                          class="position-absolute translate-middle-y top-50 end-0 me-3"
+                            class="position-absolute translate-middle-y top-50 end-0 me-3"
                         >
                           <span class="svg-icon svg-icon-2hx">
                             <inline-svg
-                              :src="
+                                :src="
                                 getAssetPath(
                                   '/media/icons/duotune/finance/fin002.svg'
                                 )
@@ -942,7 +942,7 @@
                       </div>
                       <div class="fv-plugins-message-container">
                         <div class="fv-help-block">
-                          <ErrorMessage name="cvv" />
+                          <ErrorMessage name="cvv"/>
                         </div>
                       </div>
                       <!--end::Input wrapper-->
@@ -956,7 +956,7 @@
                     <!--begin::Label-->
                     <div class="me-5">
                       <label class="fs-6 fw-semobold form-label"
-                        >Save Card for further billing?</label
+                      >Save Card for further billing?</label
                       >
                       <div class="fs-7 fw-semobold text-gray-400">
                         If you need more info, please check budget planning
@@ -966,13 +966,13 @@
 
                     <!--begin::Switch-->
                     <label
-                      class="form-check form-switch form-check-custom form-check-solid"
+                        class="form-check form-switch form-check-custom form-check-solid"
                     >
                       <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="1"
-                        checked
+                          class="form-check-input"
+                          type="checkbox"
+                          value="1"
+                          checked
                       />
                       <span class="form-check-label fw-semobold text-gray-400">
                         Save Card
@@ -1000,8 +1000,10 @@
                     <div class="text-gray-400 fw-semobold fs-6">
                       If you need more info, please
                       <router-link to="/sign-in" class="link-primary fw-bold"
-                        >Sign In</router-link
-                      >.
+                      >Sign In
+                      </router-link
+                      >
+                      .
                     </div>
                     <!--end::Notice-->
                   </div>
@@ -1020,12 +1022,12 @@
 
                     <!--begin::Alert-->
                     <div
-                      class="notice d-flex bg-light-warning rounded border-warning border border-dashed p-6"
+                        class="notice d-flex bg-light-warning rounded border-warning border border-dashed p-6"
                     >
                       <!--begin::Icon-->
                       <span class="svg-icon svg-icon-2tx svg-icon-warning me-4">
                         <inline-svg
-                          :src="
+                            :src="
                             getAssetPath(
                               '/media/icons/duotune/general/gen044.svg'
                             )
@@ -1062,14 +1064,14 @@
                 <!--begin::Wrapper-->
                 <div class="me-2">
                   <button
-                    type="button"
-                    class="btn btn-lg btn-light-primary me-3"
-                    data-kt-stepper-action="previous"
-                    @click="previousStep()"
+                      type="button"
+                      class="btn btn-lg btn-light-primary me-3"
+                      data-kt-stepper-action="previous"
+                      @click="previousStep()"
                   >
                     <span class="svg-icon svg-icon-3 me-1">
                       <inline-svg
-                        :src="
+                          :src="
                           getAssetPath('media/icons/duotune/arrows/arr063.svg')
                         "
                       />
@@ -1082,16 +1084,16 @@
                 <!--begin::Wrapper-->
                 <div>
                   <button
-                    type="submit"
-                    class="btn btn-lg btn-primary"
-                    v-if="currentStepIndex === totalSteps - 1"
-                    @click="formSubmit()"
+                      type="submit"
+                      class="btn btn-lg btn-primary"
+                      v-if="currentStepIndex === totalSteps - 1"
+                      @click="formSubmit()"
                   >
                     <span class="indicator-label">
                       Submit
                       <span class="svg-icon svg-icon-3 ms-2 me-0">
                         <inline-svg
-                          :src="
+                            :src="
                             getAssetPath(
                               '/media/icons/duotune/arrows/arr064.svg'
                             )
@@ -1102,7 +1104,7 @@
                     <span class="indicator-progress">
                       Please wait...
                       <span
-                        class="spinner-border spinner-border-sm align-middle ms-2"
+                          class="spinner-border spinner-border-sm align-middle ms-2"
                       ></span>
                     </span>
                   </button>
@@ -1111,7 +1113,7 @@
                     Continue
                     <span class="svg-icon svg-icon-3 ms-1 me-0">
                       <inline-svg
-                        :src="
+                          :src="
                           getAssetPath('media/icons/duotune/arrows/arr064.svg')
                         "
                       />
@@ -1136,13 +1138,13 @@
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { computed, defineComponent, onMounted, ref } from "vue";
-import { hideModal } from "@/core/helpers/dom";
-import { StepperComponent } from "@/assets/ts/components/_StepperComponent";
+import {getAssetPath} from "@/core/helpers/assets";
+import {computed, defineComponent, onMounted, ref} from "vue";
+import {hideModal} from "@/core/helpers/dom";
+import {StepperComponent} from "@/assets/ts/components/_StepperComponent";
 import Swal from "sweetalert2";
-import { useForm } from "vee-validate";
-import { Field, ErrorMessage } from "vee-validate";
+import {useForm} from "vee-validate";
+import {Field, ErrorMessage} from "vee-validate";
 import * as Yup from "yup";
 
 interface Step1 {
@@ -1171,7 +1173,8 @@ interface Step4 {
   cvv?: string;
 }
 
-interface KTCreateApp extends Step1, Step2, Step3, Step4 {}
+interface KTCreateApp extends Step1, Step2, Step3, Step4 {
+}
 
 export default defineComponent({
   name: "create-account-modal",
@@ -1204,7 +1207,7 @@ export default defineComponent({
 
     onMounted(() => {
       _stepperObj.value = StepperComponent.createInsance(
-        createAccountRef.value as HTMLElement
+          createAccountRef.value as HTMLElement
       );
     });
 
@@ -1216,12 +1219,12 @@ export default defineComponent({
       Yup.object({
         businessName: Yup.string().required().label("Business name"),
         shortenedDescriptor: Yup.string()
-          .required()
-          .label("Shortened descriptor"),
+            .required()
+            .label("Shortened descriptor"),
         corporationType: Yup.string().required().label("Corporation type"),
         businessDescription: Yup.string()
-          .required()
-          .label("Business description"),
+            .required()
+            .label("Business description"),
         contactEmail: Yup.string().required().label("Contact email"),
       }),
       Yup.object({
@@ -1246,7 +1249,7 @@ export default defineComponent({
       }
     });
 
-    const { resetForm, handleSubmit } = useForm<Step1 | Step2 | Step3 | Step4>({
+    const {resetForm, handleSubmit} = useForm<Step1 | Step2 | Step3 | Step4>({
       validationSchema: currentSchema,
     });
 

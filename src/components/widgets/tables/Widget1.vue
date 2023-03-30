@@ -11,15 +11,15 @@
       <div class="card-toolbar">
         <!--begin::Menu-->
         <button
-          type="button"
-          class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
-          data-kt-menu-trigger="click"
-          data-kt-menu-placement="bottom-end"
-          data-kt-menu-flip="top-end"
+            type="button"
+            class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+            data-kt-menu-trigger="click"
+            data-kt-menu-placement="bottom-end"
+            data-kt-menu-flip="top-end"
         >
           <span class="svg-icon svg-icon-2">
             <inline-svg
-              :src="getAssetPath('media/icons/duotune/general/gen024.svg')"
+                :src="getAssetPath('media/icons/duotune/general/gen024.svg')"
             />
           </span>
         </button>
@@ -37,52 +37,52 @@
         <table class="table align-middle gs-0 gy-5">
           <!--begin::Table head-->
           <thead>
-            <tr>
-              <th class="p-0 w-50px"></th>
-              <th class="p-0 min-w-200px"></th>
-              <th class="p-0 min-w-100px"></th>
-              <th class="p-0 min-w-40px"></th>
-            </tr>
+          <tr>
+            <th class="p-0 w-50px"></th>
+            <th class="p-0 min-w-200px"></th>
+            <th class="p-0 min-w-100px"></th>
+            <th class="p-0 min-w-40px"></th>
+          </tr>
           </thead>
           <!--end::Table head-->
 
           <!--begin::Table body-->
           <tbody>
-            <template v-for="(item, index) in items" :key="index">
-              <tr>
-                <th>
-                  <div class="symbol symbol-50px me-2">
+          <template v-for="(item, index) in items" :key="index">
+            <tr>
+              <th>
+                <div class="symbol symbol-50px me-2">
                     <span class="symbol-label">
                       <img
-                        :src="item.image"
-                        class="h-50 align-self-center"
-                        alt=""
+                          :src="item.image"
+                          class="h-50 align-self-center"
+                          alt=""
                       />
                     </span>
-                  </div>
-                </th>
+                </div>
+              </th>
 
-                <td>
-                  <a
+              <td>
+                <a
                     href="#"
                     class="text-dark fw-bold text-hover-primary mb-1 fs-6"
-                    >{{ item.info.title }}</a
-                  >
-                  <span class="text-muted fw-semobold d-block fs-7">{{
+                >{{ item.info.title }}</a
+                >
+                <span class="text-muted fw-semobold d-block fs-7">{{
                     item.info.description
                   }}</span>
-                </td>
+              </td>
 
-                <td>
-                  <div class="d-flex flex-column w-100 me-2">
-                    <div class="d-flex flex-stack mb-2">
+              <td>
+                <div class="d-flex flex-column w-100 me-2">
+                  <div class="d-flex flex-stack mb-2">
                       <span class="text-muted me-2 fs-7 fw-semobold">
                         {{ item.progress.value }}%
                       </span>
-                    </div>
+                  </div>
 
-                    <div class="progress h-6px w-100">
-                      <div
+                  <div class="progress h-6px w-100">
+                    <div
                         :class="`
                           progress-bar
                           bg-${item.progress.color}
@@ -92,27 +92,27 @@
                         :aria-valuenow="item.progress.value"
                         aria-valuemin="0"
                         aria-valuemax="100"
-                      ></div>
-                    </div>
+                    ></div>
                   </div>
-                </td>
+                </div>
+              </td>
 
-                <td class="text-end">
-                  <a
+              <td class="text-end">
+                <a
                     href="#"
                     class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary"
-                  >
+                >
                     <span class="svg-icon svg-icon-2">
                       <inline-svg
-                        :src="
+                          :src="
                           getAssetPath('media/icons/duotune/arrows/arr064.svg')
                         "
                       />
                     </span>
-                  </a>
-                </td>
-              </tr>
-            </template>
+                </a>
+              </td>
+            </tr>
+          </template>
           </tbody>
           <!--end::Table body-->
         </table>
@@ -125,8 +125,8 @@
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent } from "vue";
+import {getAssetPath} from "@/core/helpers/assets";
+import {defineComponent} from "vue";
 import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
 
 export default defineComponent({

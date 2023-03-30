@@ -11,15 +11,15 @@
       <div class="card-toolbar">
         <!--begin::Menu-->
         <button
-          type="button"
-          class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
-          data-kt-menu-trigger="click"
-          data-kt-menu-placement="bottom-end"
-          data-kt-menu-flip="top-end"
+            type="button"
+            class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+            data-kt-menu-trigger="click"
+            data-kt-menu-placement="bottom-end"
+            data-kt-menu-flip="top-end"
         >
           <span class="svg-icon svg-icon-2">
             <inline-svg
-              :src="getAssetPath('media/icons/duotune/general/gen024.svg')"
+                :src="getAssetPath('media/icons/duotune/general/gen024.svg')"
             />
           </span>
         </button>
@@ -34,17 +34,17 @@
       <template v-for="(item, index) in items" :key="index">
         <!--begin::Item-->
         <div
-          :class="{ 'mb-7': items.length - 1 !== index }"
-          class="d-flex align-items-center"
+            :class="{ 'mb-7': items.length - 1 !== index }"
+            class="d-flex align-items-center"
         >
           <!--begin::Symbol-->
           <div class="symbol symbol-50px me-5">
             <span :class="`bg-light-${item.color}`" class="symbol-label">
               <span
-                :class="`svg-icon-${item.color}`"
-                class="svg-icon svg-icon-2x"
+                  :class="`svg-icon-${item.color}`"
+                  class="svg-icon svg-icon-2x"
               >
-                <inline-svg :src="item.icon" />
+                <inline-svg :src="item.icon"/>
               </span>
             </span>
           </div>
@@ -53,8 +53,8 @@
           <!--begin::Text-->
           <div class="d-flex flex-column">
             <a href="#" class="text-dark text-hover-primary fs-6 fw-bold">{{
-              item.title
-            }}</a>
+                item.title
+              }}</a>
 
             <span class="text-muted fw-semobold">{{ item.description }}</span>
           </div>
@@ -69,8 +69,8 @@
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent } from "vue";
+import {getAssetPath} from "@/core/helpers/assets";
+import {defineComponent} from "vue";
 import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
 
 export default defineComponent({

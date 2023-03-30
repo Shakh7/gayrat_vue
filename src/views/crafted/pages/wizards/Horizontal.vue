@@ -5,9 +5,9 @@
     <div class="card-body">
       <!--begin::Stepper-->
       <div
-        class="stepper stepper-links d-flex flex-column"
-        id="kt_create_account_stepper"
-        ref="horizontalWizardRef"
+          class="stepper stepper-links d-flex flex-column"
+          id="kt_create_account_stepper"
+          ref="horizontalWizardRef"
       >
         <!--begin::Nav-->
         <div class="stepper-nav py-5 mt-5">
@@ -45,10 +45,10 @@
 
         <!--begin::Form-->
         <form
-          class="mx-auto mw-600px w-100 pt-15 pb-10"
-          novalidate
-          id="kt_create_account_form"
-          @submit="handleStep"
+            class="mx-auto mw-600px w-100 pt-15 pb-10"
+            novalidate
+            id="kt_create_account_form"
+            @submit="handleStep"
         >
           <!--begin::Step 1-->
           <div class="current" data-kt-stepper-element="content">
@@ -85,14 +85,14 @@
             <!--begin::Wrapper-->
             <div class="mr-2">
               <button
-                type="button"
-                class="btn btn-lg btn-light-primary me-3"
-                data-kt-stepper-action="previous"
-                @click="previousStep"
+                  type="button"
+                  class="btn btn-lg btn-light-primary me-3"
+                  data-kt-stepper-action="previous"
+                  @click="previousStep"
               >
                 <span class="svg-icon svg-icon-4 me-1">
                   <inline-svg
-                    :src="
+                      :src="
                       getAssetPath('media/icons/duotune/arrows/arr063.svg')
                     "
                   />
@@ -105,17 +105,17 @@
             <!--begin::Wrapper-->
             <div>
               <button
-                type="button"
-                class="btn btn-lg btn-primary me-3"
-                data-kt-stepper-action="submit"
-                v-if="currentStepIndex === totalSteps - 1"
-                @click="formSubmit()"
+                  type="button"
+                  class="btn btn-lg btn-primary me-3"
+                  data-kt-stepper-action="submit"
+                  v-if="currentStepIndex === totalSteps - 1"
+                  @click="formSubmit()"
               >
                 <span class="indicator-label">
                   Submit
                   <span class="svg-icon svg-icon-3 ms-2 me-0">
                     <inline-svg
-                      :src="
+                        :src="
                         getAssetPath('media/icons/duotune/arrows/arr064.svg')
                       "
                     />
@@ -124,7 +124,7 @@
                 <span class="indicator-progress">
                   Please wait...
                   <span
-                    class="spinner-border spinner-border-sm align-middle ms-2"
+                      class="spinner-border spinner-border-sm align-middle ms-2"
                   ></span>
                 </span>
               </button>
@@ -133,7 +133,7 @@
                 Continue
                 <span class="svg-icon svg-icon-4 ms-1 me-0">
                   <inline-svg
-                    :src="
+                      :src="
                       getAssetPath('media/icons/duotune/arrows/arr064.svg')
                     "
                   />
@@ -154,10 +154,10 @@
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { computed, defineComponent, onMounted, ref } from "vue";
-import { StepperComponent } from "@/assets/ts/components";
-import { useForm } from "vee-validate";
+import {getAssetPath} from "@/core/helpers/assets";
+import {computed, defineComponent, onMounted, ref} from "vue";
+import {StepperComponent} from "@/assets/ts/components";
+import {useForm} from "vee-validate";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 import Step1 from "@/components/wizard/steps/Step1.vue";
@@ -193,7 +193,8 @@ interface IStep4 {
   saveCard?: string;
 }
 
-interface CreateAccount extends IStep1, IStep2, IStep3, IStep4 {}
+interface CreateAccount extends IStep1, IStep2, IStep3, IStep4 {
+}
 
 export default defineComponent({
   name: "kt-horizontal-wizard",
@@ -229,7 +230,7 @@ export default defineComponent({
 
     onMounted(() => {
       _stepperObj.value = StepperComponent.createInsance(
-        horizontalWizardRef.value as HTMLElement
+          horizontalWizardRef.value as HTMLElement
       );
     });
 
@@ -243,8 +244,8 @@ export default defineComponent({
       Yup.object({
         businessName: Yup.string().required().label("Business Name"),
         businessDescriptor: Yup.string()
-          .required()
-          .label("Shortened Descriptor"),
+            .required()
+            .label("Shortened Descriptor"),
         businessType: Yup.string().required().label("Corporation Type"),
         businessEmail: Yup.string().required().label("Contact Email"),
       }),
@@ -261,8 +262,8 @@ export default defineComponent({
       return createAccountSchema[currentStepIndex.value];
     });
 
-    const { resetForm, handleSubmit } = useForm<
-      IStep1 | IStep2 | IStep3 | IStep4
+    const {resetForm, handleSubmit} = useForm<
+        IStep1 | IStep2 | IStep3 | IStep4
     >({
       validationSchema: currentSchema,
     });
@@ -282,7 +283,7 @@ export default defineComponent({
         },
       });
 
-      formData.value = { ...values };
+      formData.value = {...values};
 
       currentStepIndex.value++;
 
