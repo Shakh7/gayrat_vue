@@ -26,10 +26,6 @@
         <div class="card-body pt-0 fs-6">
             <!--begin::Section-->
             <div class="mb-7">
-                <!--begin::Title-->
-                <h5 class="mb-3">Customer details</h5>
-                <!--end::Title-->
-
                 <!--begin::Details-->
                 <div class="d-flex align-items-center mb-1">
                     <!--begin::Name-->
@@ -40,10 +36,6 @@
                         Sean Bean
                     </router-link>
                     <!--end::Name-->
-
-                    <!--begin::Status-->
-                    <span class="badge badge-light-success">Active</span>
-                    <!--end::Status-->
                 </div>
                 <!--end::Details-->
 
@@ -84,7 +76,7 @@
             <!--end::Seperator-->
 
             <!--begin::Section-->
-            <div class="mb-10">
+            <div class="">
                 <!--begin::Title-->
                 <h5 class="mb-3">Payment Details</h5>
                 <!--end::Title-->
@@ -110,25 +102,6 @@
             </div>
             <!--end::Section-->
 
-            <!--begin::Actions-->
-            <div class="mb-0">
-                <button
-                        type="submit"
-                        class="btn btn-primary"
-                        id="kt_subscriptions_create_button"
-                >
-                    <!--begin::Indicator-->
-                    <span class="indicator-label">Create Subscription</span>
-                    <span class="indicator-progress"
-                    >Please wait...
-            <span
-                    class="spinner-border spinner-border-sm align-middle ms-2"
-            ></span
-            ></span>
-                    <!--end::Indicator-->
-                </button>
-            </div>
-            <!--end::Actions-->
         </div>
         <!--end::Card body-->
     </div>

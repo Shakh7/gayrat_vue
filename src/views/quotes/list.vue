@@ -11,21 +11,29 @@
                 >
             </h3>
             <div class="card-toolbar">
-                <!--begin::Menu-->
-                <button
-                        type="button"
-                        class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
-                        data-kt-menu-trigger="click"
-                        data-kt-menu-placement="bottom-end"
-                        data-kt-menu-flip="top-end"
-                >
-          <span class="svg-icon svg-icon-2">
-            <inline-svg
-                    :src="getAssetPath('media/icons/duotune/general/gen024.svg')"
-            />
-          </span>
-                </button>
-                <Dropdown2></Dropdown2>
+                <div v-if="selected_quotes.length === 0">
+                    <!--begin::Menu-->
+                    <button
+                            type="button"
+                            class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+                            data-kt-menu-trigger="click"
+                            data-kt-menu-placement="bottom-end"
+                            data-kt-menu-flip="top-end"
+                    >
+                      <span class="svg-icon svg-icon-2">
+                        <inline-svg
+                                :src="getAssetPath('media/icons/duotune/general/gen024.svg')"
+                        />
+                      </span>
+                    </button>
+                    <Dropdown2></Dropdown2>
+                </div>
+                <div v-else>
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#share_quotes_model">
+                        Share Quotes
+                    </button>
+                </div>
             </div>
         </div>
         <!--end::Header-->
@@ -60,7 +68,9 @@
                         <tr>
                             <td class="ps-4">
                                 <div class="form-check form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" :checked="selected_quotes.map(i => i.id).includes(item.id) === true">
+                                    <input class="form-check-input"
+                                           @click="pushToSelected(item)"
+                                           type="checkbox" :checked="selected_quotes.map(i => i.id).includes(item.id)">
                                 </div>
                             </td>
                             <td>
@@ -121,9 +131,10 @@
                                 {{ item.pick_up_date }}
                             </td>
                             <td>
-                                <router-link :to="{name: 'quote-details', params: {id: item.id}}">
-                                    <button class="btn btn-sm btn-primary p-1 px-3 me-3">See</button>
-                                </router-link>
+                                <button class="btn btn-sm btn-primary p-1 px-3 me-3" data-bs-toggle="modal"
+                                        data-bs-target="#share_quotes_model">
+                                    Share
+                                </button>
 
                                 <button class="btn btn-sm btn-danger p-1 px-3">Delete</button>
                             </td>
@@ -134,6 +145,8 @@
             </div>
         </div>
     </div>
+
+    <ShareQuotesModal :quotes="selected_quotes"/>
 </template>
 
 <script lang="ts">
@@ -141,18 +154,20 @@ import {getAssetPath} from "@/core/helpers/assets";
 import {defineComponent} from "vue";
 import Dropdown2 from "@/components/dropdown/Dropdown2.vue";
 import axios from "axios";
+import ShareQuotesModal from "@/components/modals/forms/ShareQuotesModal.vue";
 
 export default defineComponent({
     name: "kt-c",
     components: {
         Dropdown2,
+        ShareQuotesModal
     },
     data() {
         return {
-            list: [] as any,
+            list: [],
             selected_quotes: [] as any,
             getAssetPath,
-            is_loading: true,
+            is_loading: true
         };
     },
     methods: {
@@ -165,7 +180,14 @@ export default defineComponent({
             }
         },
         pushToSelected(quote) {
-            this.selected_quotes.push(quote)
+            if (this.selected_quotes.map(i => i.id).includes(quote.id)) {
+                this.selected_quotes = this.selected_quotes.filter(i => i.id !== quote.id)
+            } else {
+                this.selected_quotes.push(quote)
+            }
+        },
+        pushSingleQuote(quote) {
+
         }
     },
     mounted() {

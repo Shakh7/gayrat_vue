@@ -54,21 +54,40 @@ const routes: Array<RouteRecordRaw> = [
                 },
             },
             {
-                path: "/quotes",
-                name: "quotes",
-                component: () => import("@/views/crafted/pages/quotes/list.vue"),
-                meta: {
-                    pageTitle: "Quotes",
-                    breadcrumbs: ["Quotes"],
-                },
-            },
-            {
                 path: "/clients",
                 name: "clients",
                 component: () => import("@/views/crafted/pages/users/list.vue"),
                 meta: {
                     pageTitle: "Clients",
                     breadcrumbs: ["Clients"],
+                },
+            },
+        ],
+    },
+
+    {
+        path: "/quotes",
+        component: () => import("@/layouts/main-layout/MainLayout.vue"),
+        meta: {
+            middleware: "auth",
+        },
+        children: [
+            {
+                path: "",
+                name: "quotes",
+                component: () => import("@/views/quotes/list.vue"),
+                meta: {
+                    pageTitle: "Quotes",
+                    breadcrumbs: ["Quotes"],
+                },
+            },
+            {
+                path: ":id",
+                name: "quote-details",
+                component: () => import("@/views/crafted/pages/quotes/AddSubscription.vue"),
+                meta: {
+                    pageTitle: "Quotes",
+                    breadcrumbs: ["Quotes"],
                 },
             },
         ],
