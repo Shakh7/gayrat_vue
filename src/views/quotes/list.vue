@@ -173,7 +173,7 @@ export default defineComponent({
     methods: {
         async getQuotes() {
             this.is_loading = true
-            let response = await axios.get("http://68.183.109.5/api/quotes");
+            let response = await axios.get("http://68.183.109.5:3000/api/quotes");
             if (response.status === 200) {
                 this.is_loading = false
                 this.list = response.data.results;
