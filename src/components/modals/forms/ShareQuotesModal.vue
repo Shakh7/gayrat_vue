@@ -288,9 +288,7 @@ export default defineComponent({
     },
     computed: {
         quotes_list() {
-            return this.quotes?.map((i) => {
-                    ...i,
-            });
+            return this.quotes
         }
     }
 });
