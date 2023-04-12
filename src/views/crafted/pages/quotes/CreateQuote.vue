@@ -800,7 +800,7 @@ export default defineComponent({
                 last_name: formData.value.lastName,
                 email: formData.value.emailAddress,
             }
-            let request = await axios.post('http://127.0.0.1:8000/api/quotes/create/', data);
+            let request = await axios.post('http://68.183.109.5:3000/quotes/create/', data);
             if (request.status === 201) {
                 isCreatingQuote.value = false;
                 hasCreatedQuote.value = true;
