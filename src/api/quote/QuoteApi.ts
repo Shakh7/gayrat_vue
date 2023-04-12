@@ -26,7 +26,7 @@ interface City {
 // Define the async function
 async function searchCarMakes(searchTerm: string): Promise<Car[]> {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/cars/${searchTerm}/`);
+        const response = await axios.get(`http://68.183.109.5:3000/api/cars/${searchTerm}/`);
         return response.data.results as Car[];
     } catch (error) {
         return [];
@@ -35,7 +35,7 @@ async function searchCarMakes(searchTerm: string): Promise<Car[]> {
 
 async function searchLocations(searchTerm: string): Promise<City[]> {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/cities/${searchTerm}/`);
+        const response = await axios.get(`http://68.183.109.5:3000/api/cities/${searchTerm}/`);
         return response.data.results as City[];
     } catch (error) {
         return [];
