@@ -83,13 +83,13 @@
                                                         href="#"
                                                         class="text-dark fw-bold text-hover-primary mb-1 fs-6"
                                                 >{{
-                                                    quote.pick_up_address.city_name + ', ' + quote.pick_up_address.state_code
+                                                    quote.departure.city_name + ', ' + quote.departure.state_code
                                                     }}</a
                                                 >
                                                 <span
                                                         class="text-muted fw-semobold text-muted d-block fs-7"
                                                 >{{
-                                                    quote.pick_up_address.state_name + ', ' + quote.pick_up_address.zip_code
+                                                    quote.departure.state_name + ', ' + quote.departure.zip_code
                                                     }}</span
                                                 >
                                             </div>
@@ -100,13 +100,13 @@
                                                         href="#"
                                                         class="text-dark fw-bold text-hover-primary mb-1 fs-6"
                                                 >{{
-                                                    quote.drop_off_address.city_name + ', ' + quote.drop_off_address.state_code
+                                                    quote.destination.city_name + ', ' + quote.destination.state_code
                                                     }}</a
                                                 >
                                                 <span
                                                         class="text-muted fw-semobold text-muted d-block fs-7"
                                                 >{{
-                                                    quote.drop_off_address.state_name + ', ' + quote.drop_off_address.zip_code
+                                                    quote.destination.state_name + ', ' + quote.destination.zip_code
                                                     }}</span
                                                 >
                                             </div>

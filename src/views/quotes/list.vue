@@ -190,8 +190,13 @@
                                     {{ item.is_lead ? 'Connected' : 'Not Connected' }}
                                 </span>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 {{ item.pick_up_date }}
+                            </td>
+                            <td class="text-center">
+                                <span v-if="item.created_at">
+                                    {{ item.created_at }}
+                                </span>
                             </td>
                             <td>
                                 <button class="btn btn-sm btn-primary p-1 px-3 me-3" data-bs-toggle="modal"
@@ -298,6 +303,13 @@ export default defineComponent({
                     {
                         text: "Pick Up Date",
                         value: "pick_up_date",
+                        align: "start",
+                        width: "200px",
+                        search_type: 'date'
+                    },
+                    {
+                        text: "Created At",
+                        value: "created_at",
                         align: "start",
                         width: "200px",
                         search_type: 'date'
