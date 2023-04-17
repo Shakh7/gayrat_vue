@@ -97,8 +97,8 @@
                         <th v-for="(item, index) in table_headers" :key="index" class="min-w-125px py-3">
                             <select v-if="item.search_type === 'select'"
                                     class="form-select form-select-sm form-select-solid"
-                                    :placeholder="'Search ' + item.text" v-model="item.search"
-                                    @change="searchChange()"
+                                    :placeholder="'Search ' + item.text"
+                                    @change="searchChange(item.value, $event.target.value)"
                             >
                                 <option value="" selected>All</option>
                                 <option v-for="option in item.select_options" :key="option" :value="option.value">
@@ -108,10 +108,10 @@
                             <input v-else-if="item.search_type === 'date'"
                                    class="form-control form-control-sm form-control-solid" type="date"
                                    :placeholder="'Search ' + item.text" v-model="item.search"
-                                   @input="searchChange()"/>
+                                   @input="searchChange(item.value, $event.target.value)"/>
                             <input v-else class="form-control form-control-sm form-control-solid" type="text"
-                                   :placeholder="'Search ' + item.text" v-model="item.search"
-                                   @input="searchChange()"/>
+                                   :placeholder="'Search ' + item.text"
+                                   @input="searchChange(item.value, $event.target.value)"/>
                         </th>
                     </tr>
                     </thead>
@@ -125,7 +125,8 @@
                                 <div class="form-check form-check-custom form-check-solid">
                                     <input class="form-check-input"
                                            @click="pushToSelected(item)"
-                                           type="checkbox" :checked="selected_quotes.map(i => i.id).includes(item.id)">
+                                           type="checkbox"
+                                           :checked="selected_quotes.map(i => i.id).includes(item.id)">
                                 </div>
                             </td>
                             <td>
@@ -183,47 +184,49 @@
                                 </div>
                             </td>
                             <td class="text-center">
-                                <span class="badge" :class="{
-                                    'bg-success': item.is_lead === true,
-                                    'bg-danger': item.is_lead === false,
-                                }">
-                                    {{ item.is_lead ? 'Connected' : 'Not Connected' }}
-                                </span>
+                                    <span class="badge" :class="{
+                                        'bg-success': item.is_lead === true,
+                                        'bg-danger': item.is_lead === false,
+                                    }">
+                                        {{ item.is_lead ? 'Connected' : 'Not Connected' }}
+                                    </span>
                             </td>
                             <td class="text-center">
                                 {{ item.pick_up_date }}
                             </td>
                             <td class="text-center">
-                                <span v-if="item.created_at">
-                                    {{ item.created_at }}
-                                </span>
+                                    <span v-if="item.created_at">
+                                        {{ item.created_at }}
+                                    </span>
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-primary p-1 px-3 me-3" data-bs-toggle="modal"
-                                        data-bs-target="#share_quotes_model"
-                                        @click="pushSingleQuote(item)">
-                                    Share
-                                </button>
+                                <div class="d-flex">
+                                    <button class="btn btn-sm btn-primary p-1 px-3 me-3" data-bs-toggle="modal"
+                                            data-bs-target="#share_quotes_model"
+                                            @click="pushSingleQuote(item)">
+                                        Share
+                                    </button>
 
-                                <button class="btn btn-sm btn-danger p-1 px-3">Delete</button>
+                                    <button class="btn btn-sm btn-danger p-1 px-3">Delete</button>
+                                </div>
                             </td>
                         </tr>
                     </template>
                     </tbody>
 
-                    <tbody v-else-if="!is_loading && this.table_headers.filter(i => i.search !== '').length > 0 && table_data.length === 0">
+                    <tbody v-else-if="!is_loading
+                     && table_data.length === 0
+                     && this.table.headers.filter(i => i.search !== undefined || i.search !=='').length > 0">
                     <tr>
                         <th :colspan="table_headers.length + 1" class="px-3 pt-10">
                             <div class="mb-5">
                                 <span>We could not find any matching quotes for your queries !</span>
                             </div>
-                            <div v-for="query in this.table_headers.filter(i => i.search !== '')" :key="query"
+                            <div v-for="query in table_searched_fields"
+                                 :key="query"
                                  class="d-block mb-3">
-                                <span class="fw-semibold pe-3">{{ query.text }}:</span>
-                                <span>{{
-                                    query.value === 'is_lead' ? query.search === 'false' ? 'Not Connected' : 'Connected' : query.search
-                                    }}
-                                </span>
+                                <span class="fw-semibold pe-3">{{ query.key.split('_').join(' ') }}:</span>
+                                <span>{{ query.value.split('_').join(' ') }}</span>
                             </div>
                         </th>
                     </tr>
@@ -322,7 +325,8 @@ export default defineComponent({
                         width: "200px",
                     }
                 ]
-            }
+            },
+            is_searching: false
         };
     },
     computed: {
@@ -330,22 +334,61 @@ export default defineComponent({
             return this.table.headers.map((item: any) => {
                 return {
                     ...item,
-                    search: '',
                 };
             });
         },
         table_data() {
+
+            let searched_fields = this.table_headers.filter(i => i.search !== undefined && i.search !== '').map(i => {
+                return {
+                    key: i.value,
+                    value: i.search
+                }
+            })
+
             if (this.table.search_server) {
                 return this.list
-            } else {
-                let searched_fields = this.table_headers.filter(i => i.search !== '').map(i => {
-                    return {
-                        key: i.value,
-                        value: i.search
+            } else if (!this.table.search_server && searched_fields.length > 0) {
+                let query = this.list
+                let results = [] as any
+                searched_fields.forEach((key, index) => {
+
+                    if (key.key === 'car') {
+                        query = query.filter(i => {
+                            if (
+                                i.car_make.toLowerCase().includes(key.value.toLowerCase()) ||
+                                i.car_model.toLowerCase().includes(key.value.toLowerCase())
+                            ) {
+                                return i
+                            }
+                        })
                     }
+
+                    if (key.key === 'customer') {
+                        query = query.filter(i => {
+                            if (
+                                i.customer.full_name.toLowerCase().includes(key.value.toLowerCase()) ||
+                                i.customer.email.toLowerCase().includes(key.value.toLowerCase())
+                            ) {
+                                return i
+                            }
+                        })
+                    }
+
                 })
+                return query
+            } else {
                 return this.list
             }
+        },
+        table_searched_fields() {
+            let searched_fields = this.table_headers.filter(i => i.search !== undefined && i.search !== '').map(i => {
+                return {
+                    key: i.value,
+                    value: i.search
+                }
+            })
+            return searched_fields
         }
     },
     methods: {
@@ -357,16 +400,16 @@ export default defineComponent({
             }
         },
         async searchQuotesServer(searched_fields: any []) {
+            this.is_searching = true
             let url = `http://68.183.109.5:3000/api/quotes`
             searched_fields.forEach((item, index) => {
                 index === 0 ? url += `?${item.key}=${item.value}` : url += `&${item.key}=${item.value}`
             })
-            console.log(url)
             let response = await axios.get(url);
             if (response.status === 200) {
-                this.is_loading = false
                 this.list = response.data.results;
             }
+            this.is_searching = false
         },
         pushToSelected(quote) {
             if (this.selected_quotes.map(i => i.id).includes(quote.id)) {
@@ -389,19 +432,14 @@ export default defineComponent({
                 this.selected_quotes = this.list
             }
         },
-        searchChange() {
-            if (!this.table.search_server) return
-            let searched_fields = this.table_headers.filter(i => i.search !== '').map(i => {
-                return {
-                    key: i.value,
-                    value: i.search
-                }
-            })
-            console.log(searched_fields)
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(() => {
-                this.searchQuotesServer(searched_fields)
-            }, 500); // 500ms delay
+        async searchChange(field_name, field_value) {
+            this.table.headers.find(i => i.value === field_name).search = field_value
+            if (this.table.search_server) {
+                clearTimeout(this.timeout)
+                this.timeout = setTimeout(() => {
+                    this.searchQuotesServer(this.table_searched_fields)
+                }, 400)
+            }
         }
     },
     mounted() {
