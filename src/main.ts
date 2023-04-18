@@ -41,12 +41,4 @@ app.directive("tooltip", (el) => {
     new Tooltip(el);
 });
 
-
-// axios.defaults.baseURL = import.meta.env.VUE_APP_ORDER_URL
-
-axios.defaults.auth = {
-  username: 'admin@gmail.com',
-  password: '12345'
-};
-
 app.mount("#app");

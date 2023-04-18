@@ -17,6 +17,10 @@ class ApiService {
      * @description initialize vue axios
      */
     public static init(app: App<Element>) {
+        axios.defaults.auth = {
+            username: 'shakh@gmail.com',
+            password: '12345!'
+        };
         ApiService.vueInstance = app;
         ApiService.vueInstance.use(VueAxios, axios);
         ApiService.vueInstance.axios.defaults.baseURL =
