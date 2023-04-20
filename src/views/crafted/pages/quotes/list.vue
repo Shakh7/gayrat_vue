@@ -60,7 +60,8 @@
                         <tr>
                             <td class="ps-4">
                                 <div class="form-check form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" :checked="selected_quotes.map(i => i.id).includes(item.id) === true">
+                                    <input class="form-check-input" type="checkbox"
+                                           :checked="selected_quotes.map(i => i.id).includes(item.id) === true">
                                 </div>
                             </td>
                             <td>

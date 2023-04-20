@@ -10,42 +10,13 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
         redirect: "/",
-        component: () => import("@/layouts/landing-page/Layout.vue"),
-        meta: {
-            middleware: "auth",
-        },
-        children: [
-            {
-                path: "/",
-                name: "landing-page",
-                component: () => import("@/views/LandingPage.vue"),
-                meta: {
-                    pageTitle: "Landing Page",
-                    breadcrumbs: ["Landing Page"],
-                },
-            },
-            {
-                path: "/get-quotes",
-                name: "get-quotes",
-                component: () => import("@/views/crafted/pages/quotes/CreateQuote.vue"),
-                meta: {
-                    pageTitle: "Get Quotes",
-                    breadcrumbs: ["Get Quotes"],
-                },
-            },
-        ],
-    },
-
-    {
-        path: "/",
-        redirect: "/dashboard",
         component: () => import("@/layouts/main-layout/MainLayout.vue"),
         meta: {
             middleware: "auth",
         },
         children: [
             {
-                path: "/dashboard",
+                path: "/",
                 name: "dashboard",
                 component: () => import("@/views/Dashboard.vue"),
                 meta: {
