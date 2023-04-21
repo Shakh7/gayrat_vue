@@ -82,6 +82,7 @@ export const useAuthStore = defineStore("auth", () => {
             // ApiService.setHeader();
             ApiService.post("/token/verify/", {token: JwtService.getToken()})
                 .then(({data}) => {
+                    console.log(data)
                     let user_info = {
                         id: data.user.id,
                         full_name: data.user.full_name,

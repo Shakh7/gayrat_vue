@@ -69,13 +69,12 @@ export default defineComponent({
     },
     data() {
         return {
-            store: useAuthStore()
-        }
+            store: useAuthStore()        }
     },
     methods: {
         async onLogOutSubmitted() {
             this.store.logout()
-            location.reload(true);
+            location.reload();
         }
     }
 });

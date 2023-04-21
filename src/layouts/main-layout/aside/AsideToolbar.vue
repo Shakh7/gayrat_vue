@@ -18,7 +18,7 @@
                     <!--begin::Username-->
                     <a href="#" class="text-white text-hover-primary fs-6 fw-semobold"
                     >
-                        {{ user.full_name }}
+                        {{ getUserFullName }}
                     </a
                     >
                     <!--end::Username-->
@@ -100,9 +100,18 @@ export default defineComponent({
                     convertedStr[i] = convertedStr[i].charAt(0).toUpperCase() + convertedStr[i].slice(1);
                 }
                 return convertedStr.join(' ');
+            } else {
+                return '';
             }
-            return ''
         },
+        getUserFullName() {
+            if (Object.keys(this.user).length > 0) {
+                return this.user.full_name === null || this.user.full_name === ""
+                    ? this.user.email : this.user.full_name
+            } else {
+                return '';
+            }
+        }
     },
 });
 </script>
