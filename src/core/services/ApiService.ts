@@ -18,8 +18,8 @@ class ApiService {
      */
     public static init(app: App<Element>) {
         axios.defaults.auth = {
-            username: 'shakh@gmail.com',
-            password: '12345!'
+            username: 'admin@shipperauto.com',
+            password: '12345!!'
         };
         ApiService.vueInstance = app;
         ApiService.vueInstance.use(VueAxios, axios);
