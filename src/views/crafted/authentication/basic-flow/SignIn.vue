@@ -31,6 +31,7 @@
                                 type="text"
                                 name="email"
                                 autocomplete="off"
+                                placeholder="Email"
                         />
                         <!--end::Input-->
                         <div class="fv-plugins-message-container">
@@ -64,6 +65,7 @@
                                 type="password"
                                 name="password"
                                 autocomplete="off"
+                                placeholder="Password"
                         />
                         <!--end::Input-->
                         <div class="fv-plugins-message-container">
