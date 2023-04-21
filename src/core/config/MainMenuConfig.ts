@@ -14,6 +14,12 @@ const MainMenuConfig: Array<MenuItem> = [
     {
         pages: [
             {
+                heading: "Dashboard",
+                route: "/",
+                svgIcon: getAssetPath("media/icons/duotune/general/gen020.svg"),
+                fontIcon: "bi-layers",
+            },
+            {
                 heading: "Quotes",
                 route: "/quotes",
                 svgIcon: getAssetPath("media/icons/duotune/general/gen019.svg"),

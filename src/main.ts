@@ -18,7 +18,7 @@ import {initVeeValidate} from "@/core/plugins/vee-validate";
 
 import "@/core/plugins/prismjs";
 
-import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
+import {setupCalendar, Calendar, DatePicker} from 'v-calendar';
 import 'v-calendar/style.css';
 
 const app = createApp(App);

@@ -24,15 +24,6 @@ const routes: Array<RouteRecordRaw> = [
                     breadcrumbs: ["Dashboards"],
                 },
             },
-            {
-                path: "/clients",
-                name: "clients",
-                component: () => import("@/views/crafted/pages/users/list.vue"),
-                meta: {
-                    pageTitle: "Clients",
-                    breadcrumbs: ["Clients"],
-                },
-            },
         ],
     },
 
@@ -59,6 +50,24 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     pageTitle: "Quotes",
                     breadcrumbs: ["Quotes"],
+                },
+            },
+        ],
+    },
+    {
+        path: "/clients",
+        component: () => import("@/layouts/main-layout/MainLayout.vue"),
+        meta: {
+            middleware: "auth",
+        },
+        children: [
+            {
+                path: "",
+                name: "clients",
+                component: () => import("@/views/crafted/pages/users/list.vue"),
+                meta: {
+                    pageTitle: "Clients",
+                    breadcrumbs: ["Clients"],
                 },
             },
         ],
@@ -147,21 +156,25 @@ router.beforeEach((to, from, next) => {
     // reset config to initial state
     // configStore.resetLayoutConfig();
 
-    next();
-
     // verify auth token before each page change
-    // authStore.verifyAuth();
+    try {
+        authStore.verifyAuth()
+    } catch {
+        alert('55')
+    }
 
     // before page access check if page requires authentication
-    // if (to.meta.middleware == "auth") {
-    //     if (authStore.isAuthenticated) {
-    //         next();
-    //     } else {
-    //         next({name: "sign-in"});
-    //     }
-    // } else {
-    //     next();
-    // }
+    if (to.meta.middleware == "auth") {
+
+        console.log(authStore.isAuthenticated)
+        if (authStore.isAuthenticated === true) {
+            next();
+        } else {
+            next({name: "sign-in"});
+        }
+    } else {
+        next();
+    }
 
     // Scroll page to top on every route change
     window.scrollTo({

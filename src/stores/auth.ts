@@ -2,12 +2,13 @@ import {ref} from "vue";
 import {defineStore} from "pinia";
 import ApiService from "@/core/services/ApiService";
 import JwtService from "@/core/services/JwtService";
+import router from "@/router/index"
 
 export interface User {
-    name: string;
-    surname: string;
+    id: number;
+    full_name: string;
+    user_type: string;
     email: string;
-    password: string;
     api_token: string;
 }
 
@@ -35,12 +36,20 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function login(credentials: User) {
-        return ApiService.post("login", credentials)
+        return ApiService.post("/token/", credentials)
             .then(({data}) => {
-                setAuth(data);
+                errors.value = {};
+                isAuthenticated.value = true
+                JwtService.saveToken(data.access);
             })
             .catch(({response}) => {
-                setError(response.data.errors);
+                try {
+                    setError(response.data);
+                } catch {
+                    setError({
+                        error: 'Something went wrong, please try again later!'
+                    })
+                }
             });
     }
 
@@ -70,14 +79,22 @@ export const useAuthStore = defineStore("auth", () => {
 
     function verifyAuth() {
         if (JwtService.getToken()) {
-            ApiService.setHeader();
-            ApiService.post("verify_token", {api_token: JwtService.getToken()})
+            // ApiService.setHeader();
+            ApiService.post("/token/verify/", {token: JwtService.getToken()})
                 .then(({data}) => {
-                    setAuth(data);
+                    alert("heyyy success then")
+                    let user_info = {
+                        id: data.user.id,
+                        full_name: data.user.full_name,
+                        user_type: data.user.user_type,
+                        email: data.user.email,
+                        api_token: data.access,
+                    } as User;
+                    setAuth(user_info);
                 })
-                .catch(({response}) => {
-                    setError(response.data.errors);
+                .catch(() => {
                     purgeAuth();
+                    router.push({name: '500'})
                 });
         } else {
             purgeAuth();
