@@ -56,6 +56,7 @@ import {getAssetPath} from "@/core/helpers/assets";
 import {defineComponent} from "vue";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import axios from "axios";
+import ApiService from "@/core/services/ApiService";
 
 export default defineComponent({
     name: "customers-listing",
@@ -87,7 +88,7 @@ export default defineComponent({
     },
     methods: {
         async getUsers() {
-            let response = await axios.get('http://127.0.0.1:8000/api/users')
+            let response = await ApiService.get('/users')
             if (response.status === 200) {
                 this.tableData = response.data.map((item: any) => {
                     return {
