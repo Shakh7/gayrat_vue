@@ -17,10 +17,10 @@ class ApiService {
      * @description initialize vue axios
      */
     public static init(app: App<Element>) {
-        axios.defaults.auth = {
-            username: 'admin@gmail.com',
-            password: '12345!!'
-        };
+        // axios.defaults.auth = {
+        //     username: 'admin@gmail.com',
+        //     password: '12345!!'
+        // };
         ApiService.vueInstance = app;
         ApiService.vueInstance.use(VueAxios, axios);
         ApiService.vueInstance.axios.defaults.baseURL =
@@ -55,6 +55,7 @@ class ApiService {
         resource: string,
         slug = "" as string
     ): Promise<AxiosResponse> {
+        console.log(ApiService.vueInstance.axios.defaults.headers.common)
         return ApiService.vueInstance.axios.get(`${resource}/${slug}`);
     }
 
