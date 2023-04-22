@@ -89,13 +89,13 @@ export default defineComponent({
     data() {
         return {
             getAssetPath,
-            user: useAuthStore().user,
+            store: useAuthStore(),
         }
     },
     computed: {
         getUserType() {
-            if (Object.keys(this.user).length > 0) {
-                let convertedStr = this.user.user_type.replace(/_/g, ' ').toLowerCase().split(' ');
+            if (Object.keys(this.store.user).length > 0) {
+                let convertedStr = this.store.user.user_type.replace(/_/g, ' ').toLowerCase().split(' ');
                 for (let i = 0; i < convertedStr.length; i++) {
                     convertedStr[i] = convertedStr[i].charAt(0).toUpperCase() + convertedStr[i].slice(1);
                 }
@@ -105,12 +105,8 @@ export default defineComponent({
             }
         },
         getUserFullName() {
-            if (Object.keys(this.user).length > 0) {
-                return this.user.full_name === null || this.user.full_name === ""
-                    ? this.user.email : this.user.full_name
-            } else {
-                return '';
-            }
+            let user_full_name = this.store.user.full_name
+            return user_full_name
         }
     },
 });

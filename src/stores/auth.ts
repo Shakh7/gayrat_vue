@@ -82,7 +82,6 @@ export const useAuthStore = defineStore("auth", () => {
             // ApiService.setHeader();
             ApiService.post("/token/verify/", {token: JwtService.getToken()})
                 .then(({data}) => {
-                    console.log(data)
                     let user_info = {
                         id: data.user.id,
                         full_name: data.user.full_name,
@@ -94,7 +93,7 @@ export const useAuthStore = defineStore("auth", () => {
                 })
                 .catch(() => {
                     purgeAuth();
-                    router.push({name: '500'})
+                    router.push({name: 'sign-in'})
                 });
         } else {
             purgeAuth();
