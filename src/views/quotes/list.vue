@@ -393,7 +393,7 @@ export default defineComponent({
     },
     methods: {
         async getQuotes() {
-            let response = await ApiService.get("/quotes/");
+            let response = await ApiService.get("/quotes");
             if (response.status === 200) {
                 this.is_loading = false
                 this.list = response.data.results;
