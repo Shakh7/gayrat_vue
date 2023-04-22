@@ -130,6 +130,9 @@
                                 </div>
                             </td>
                             <td>
+                                {{ item.unique_code }}
+                            </td>
+                            <td>
                                 <div class="d-flex justify-content-start flex-column">
                                     <a
                                             href="#"
@@ -262,6 +265,18 @@ export default defineComponent({
             table: {
                 search_server: true,
                 headers: [
+                    {
+                        text: 'Unique Code',
+                        value: "unique_code",
+                        align: 'start',
+                        width: '200px',
+                    },
+                    {
+                        text: "Customer",
+                        value: "customer",
+                        align: "start",
+                        width: "200px",
+                    },
                     {
                         text: "Customer",
                         value: "customer",
@@ -396,6 +411,7 @@ export default defineComponent({
             let response = await ApiService.get("/quotes");
             if (response.status === 200) {
                 this.is_loading = false
+                console.log(response.data.results)
                 this.list = response.data.results;
             }
         },
