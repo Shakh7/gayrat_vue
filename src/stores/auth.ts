@@ -3,6 +3,7 @@ import {defineStore} from "pinia";
 import ApiService from "@/core/services/ApiService";
 import JwtService from "@/core/services/JwtService";
 import router from "@/router/index"
+import axios from "axios";
 
 export interface User {
     id: number;
@@ -36,7 +37,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function login(credentials: User) {
-        return ApiService.post("/token/")
+        return ApiService.post("/token/", credentials)
             .then(({data}) => {
                 errors.value = {};
                 isAuthenticated.value = true
@@ -58,7 +59,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function register(credentials: User) {
-        return ApiService.post("register")
+        return ApiService.post("register", credentials)
             .then(({data}) => {
                 setAuth(data);
             })
@@ -68,7 +69,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function forgotPassword(email: string) {
-        return ApiService.post("forgot_password")
+        return ApiService.post("forgot_password", email)
             .then(() => {
                 setError({});
             })
@@ -79,22 +80,36 @@ export const useAuthStore = defineStore("auth", () => {
 
     function verifyAuth() {
         if (JwtService.getToken()) {
-            ApiService.setHeader();
-            ApiService.post("/token/verify/")
-                .then(({data}) => {
-                    let user_info = {
-                        id: data.user.id,
-                        full_name: data.user.full_name,
-                        user_type: data.user.user_type,
-                        email: data.user.email,
-                        api_token: data.access,
-                    } as User;
-                    setAuth(user_info);
+            var config = {
+                method: 'get',
+                url: 'https://api.shipperauto.com/api/cars/',
+                headers: {
+                    'Authorization': `Bearer ${JwtService.getToken()}`
+                }
+            };
+            axios(config)
+                .then(function (response) {
+                    console.log(JSON.stringify(response.data));
                 })
-                .catch(() => {
-                    purgeAuth();
-                    router.push({name: 'sign-in'})
+                .catch(function (error) {
+                    console.log(error);
                 });
+            // ApiService.setHeader();
+            // ApiService.post("/token/verify/", {token: JwtService.getToken()})
+            //     .then(({data}) => {
+            //         let user_info = {
+            //             id: data.user.id,
+            //             full_name: data.user.full_name,
+            //             user_type: data.user.user_type,
+            //             email: data.user.email,
+            //             api_token: data.access,
+            //         } as User;
+            //         setAuth(user_info);
+            //     })
+            //     .catch(() => {
+            //         purgeAuth();
+            //         router.push({name: 'sign-in'})
+            //     });
         } else {
             purgeAuth();
         }
