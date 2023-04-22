@@ -80,36 +80,22 @@ export const useAuthStore = defineStore("auth", () => {
 
     function verifyAuth() {
         if (JwtService.getToken()) {
-            var config = {
-                method: 'get',
-                url: 'https://api.shipperauto.com/api/cars/',
-                headers: {
-                    'Authorization': `Bearer ${JwtService.getToken()}`
-                }
-            };
-            axios(config)
-                .then(function (response) {
-                    console.log(JSON.stringify(response.data));
+            ApiService.setHeader();
+            ApiService.post("/token/verify/", {token: JwtService.getToken()})
+                .then(({data}) => {
+                    let user_info = {
+                        id: data.user.id,
+                        full_name: data.user.full_name,
+                        user_type: data.user.user_type,
+                        email: data.user.email,
+                        api_token: data.access,
+                    } as User;
+                    setAuth(user_info);
                 })
-                .catch(function (error) {
-                    console.log(error);
+                .catch(() => {
+                    purgeAuth();
+                    router.push({name: 'sign-in'})
                 });
-            // ApiService.setHeader();
-            // ApiService.post("/token/verify/", {token: JwtService.getToken()})
-            //     .then(({data}) => {
-            //         let user_info = {
-            //             id: data.user.id,
-            //             full_name: data.user.full_name,
-            //             user_type: data.user.user_type,
-            //             email: data.user.email,
-            //             api_token: data.access,
-            //         } as User;
-            //         setAuth(user_info);
-            //     })
-            //     .catch(() => {
-            //         purgeAuth();
-            //         router.push({name: 'sign-in'})
-            //     });
         } else {
             purgeAuth();
         }
