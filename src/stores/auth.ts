@@ -11,6 +11,7 @@ export interface User {
     user_type: string;
     email: string;
     api_token: string;
+    password: string
 }
 
 export const useAuthStore = defineStore("auth", () => {
