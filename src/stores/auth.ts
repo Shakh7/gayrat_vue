@@ -36,7 +36,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function login(credentials: User) {
-        return ApiService.post("/token/", credentials)
+        return ApiService.post("/token/")
             .then(({data}) => {
                 errors.value = {};
                 isAuthenticated.value = true
@@ -58,7 +58,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function register(credentials: User) {
-        return ApiService.post("register", credentials)
+        return ApiService.post("register")
             .then(({data}) => {
                 setAuth(data);
             })
@@ -68,7 +68,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function forgotPassword(email: string) {
-        return ApiService.post("forgot_password", email)
+        return ApiService.post("forgot_password")
             .then(() => {
                 setError({});
             })
@@ -80,7 +80,7 @@ export const useAuthStore = defineStore("auth", () => {
     function verifyAuth() {
         if (JwtService.getToken()) {
             ApiService.setHeader();
-            ApiService.post("/token/verify/", {token: JwtService.getToken()})
+            ApiService.post("/token/verify/")
                 .then(({data}) => {
                     let user_info = {
                         id: data.user.id,
