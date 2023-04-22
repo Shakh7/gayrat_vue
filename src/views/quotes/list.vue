@@ -411,7 +411,6 @@ export default defineComponent({
             let response = await ApiService.get("/quotes");
             if (response.status === 200) {
                 this.is_loading = false
-                console.log(response.data.results)
                 this.list = response.data.results;
             }
         },

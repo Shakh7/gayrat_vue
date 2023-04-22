@@ -55,7 +55,6 @@ class ApiService {
         resource: string,
         slug = "" as string
     ): Promise<AxiosResponse> {
-        console.log(ApiService.vueInstance.axios.defaults.headers.common)
         return ApiService.vueInstance.axios.get(`${resource}/${slug}`);
     }
 
