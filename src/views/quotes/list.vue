@@ -242,18 +242,17 @@
 <script lang="ts">
 import {getAssetPath} from "@/core/helpers/assets";
 import {defineComponent} from "vue";
-import Dropdown2 from "@/components/dropdown/Dropdown2.vue";
 import axios from "axios";
 import ShareQuotesModal from "@/components/modals/forms/ShareQuotesModal.vue";
 
 export default defineComponent({
     name: "kt-c",
     components: {
-        Dropdown2,
         ShareQuotesModal
     },
     data() {
         return {
+            city: [],
             timeout: 200,
             list: [],
             selected_quotes: [] as any,
@@ -393,7 +392,7 @@ export default defineComponent({
     },
     methods: {
         async getQuotes() {
-            let response = await axios.get("http://68.183.109.5:3000/api/quotes");
+            let response = await axios.get("/quotes/");
             if (response.status === 200) {
                 this.is_loading = false
                 this.list = response.data.results;

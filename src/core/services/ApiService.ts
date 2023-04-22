@@ -18,7 +18,7 @@ class ApiService {
      */
     public static init(app: App<Element>) {
         axios.defaults.auth = {
-            username: 'admin@shipperauto.com',
+            username: 'shakh@gmail.com',
             password: '12345!!'
         };
         ApiService.vueInstance = app;
@@ -31,11 +31,8 @@ class ApiService {
      * @description set the default HTTP request headers
      */
     public static setHeader(): void {
-        ApiService.vueInstance.axios.defaults.headers.common[
-            "Authorization"
-            ] = `Token ${JwtService.getToken()}`;
-        ApiService.vueInstance.axios.defaults.headers.common["Accept"] =
-            "application/json";
+        ApiService.vueInstance.axios.defaults.headers.common
+            ["Authorization"] = `Bearer ${JwtService.getToken()}`;
     }
 
     /**
