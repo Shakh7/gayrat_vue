@@ -42,7 +42,7 @@ export const useAuthStore = defineStore("auth", () => {
             .then(({data}) => {
                 errors.value = {};
                 isAuthenticated.value = true
-                JwtService.saveToken(data.access);
+                // JwtService.saveToken(data.access);
             })
             .catch(({response}) => {
                 try {
@@ -81,7 +81,7 @@ export const useAuthStore = defineStore("auth", () => {
 
     function verifyAuth() {
         if (JwtService.getToken()) {
-            ApiService.setHeader();
+            // ApiService.setHeader();
             ApiService.post("/token/verify/", {token: JwtService.getToken()})
                 .then(({data}) => {
                     let user_info = {
@@ -98,6 +98,7 @@ export const useAuthStore = defineStore("auth", () => {
                     router.push({name: 'sign-in'})
                 });
         } else {
+            console.log('no token')
             purgeAuth();
         }
     }
