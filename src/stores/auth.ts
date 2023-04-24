@@ -48,7 +48,7 @@ export const useAuthStore = defineStore("auth", () => {
             isAuthenticated.value = true
             errors.value = []
         }).catch((error) => {
-            alert('error')
+            setError('error')
         })
 
     }
