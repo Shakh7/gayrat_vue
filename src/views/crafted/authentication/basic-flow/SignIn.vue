@@ -114,6 +114,7 @@ import {useAuthStore, type User} from "@/stores/auth";
 import {useRouter} from "vue-router";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
+import router from "@/router/index";
 
 export default defineComponent({
     name: "sign-in",
@@ -149,9 +150,9 @@ export default defineComponent({
 
             // Send login request
             await store.login(values);
-            const error = Object.values(store.errors);
+            const error = store.errors;
 
-            if (error.length === 0) {
+            if ((error).length === 0) {
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'top',
@@ -187,7 +188,7 @@ export default defineComponent({
                     icon: 'error',
                     title: error[0] as string,
                 }).then(() => {
-                    store.errors = {};
+                    store.errors = [];
                 });
             }
 

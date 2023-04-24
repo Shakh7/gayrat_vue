@@ -4,6 +4,7 @@ import ApiService from "@/core/services/ApiService";
 import JwtService from "@/core/services/JwtService";
 import router from "@/router/index"
 import axios from "axios";
+import {apiService} from "@/core/services/ApiServices";
 
 export interface User {
     id: number;
@@ -15,19 +16,19 @@ export interface User {
 }
 
 export const useAuthStore = defineStore("auth", () => {
-    const errors = ref({});
+    const errors = ref([] as any);
     const user = ref<User>({} as User);
     const isAuthenticated = ref(!!JwtService.getToken());
 
     function setAuth(authUser: User) {
         isAuthenticated.value = true;
         user.value = authUser;
-        errors.value = {};
+        errors.value = [];
         JwtService.saveToken(user.value.api_token);
     }
 
     function setError(error: any) {
-        errors.value = {...error};
+        errors.value.push(error);
     }
 
     function purgeAuth() {
@@ -38,21 +39,32 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function login(credentials: User) {
-        return ApiService.post("/token/", credentials)
-            .then(({data}) => {
-                errors.value = {};
-                isAuthenticated.value = true
-                // JwtService.saveToken(data.access);
+        return apiService('login', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: credentials.email,
+                password: credentials.password
             })
-            .catch(({response}) => {
-                try {
-                    setError(response.data);
-                } catch {
-                    setError({
-                        error: 'Something went wrong, please try again later!'
-                    })
-                }
-            });
+        }).then((response) => {
+            errors.value = []
+            isAuthenticated.value = true
+        }).catch(error => {
+            setError(Object.values(JSON.parse((error.message)))[0])
+        })
+
+        // ApiService.post('http://127.0.0.1:8000/api/login', {
+        //     email: credentials.email,
+        //     password: credentials.password
+        // })
+        //     .then((response) => {
+        //         isAuthenticated.value = true
+        //     })
+        // return ApiService.post("/login", credentials)
+        //     .then(({data}) => {
+        //         // JwtService.saveToken(data.access);
+        //     })
+        //     .catch(({response}) => {
+        //     });
     }
 
     function logout() {
@@ -80,27 +92,28 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function verifyAuth() {
-        if (JwtService.getToken()) {
-            // ApiService.setHeader();
-            ApiService.post("/token/verify/", {token: JwtService.getToken()})
-                .then(({data}) => {
-                    let user_info = {
-                        id: data.user.id,
-                        full_name: data.user.full_name,
-                        user_type: data.user.user_type,
-                        email: data.user.email,
-                        api_token: data.access,
-                    } as User;
-                    setAuth(user_info);
-                })
-                .catch(() => {
-                    purgeAuth();
-                    router.push({name: 'sign-in'})
-                });
-        } else {
-            console.log('no token')
-            purgeAuth();
-        }
+        // if (JwtService.getToken()) {
+        //     // ApiService.setHeader();
+        //     ApiService.post("/token/verify/", {token: JwtService.getToken()})
+        //         .then(({data}) => {
+        //             let user_info = {
+        //                 id: data.user.id,
+        //                 full_name: data.user.full_name,
+        //                 user_type: data.user.user_type,
+        //                 email: data.user.email,
+        //                 api_token: data.access,
+        //             } as User;
+        //             setAuth(user_info);
+        //         })
+        //         .catch(() => {
+        //             purgeAuth();
+        //             router.push({name: 'sign-in'})
+        //         });
+        // } else {
+        //     console.log('no token')
+        //     purgeAuth();
+        // }
+        return null
     }
 
     return {

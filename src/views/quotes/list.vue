@@ -247,7 +247,7 @@ import {getAssetPath} from "@/core/helpers/assets";
 import {defineComponent} from "vue";
 import axios from "axios";
 import ShareQuotesModal from "@/components/modals/forms/ShareQuotesModal.vue";
-import ApiService from "@/core/services/ApiService";
+import {apiService} from "@/core/services/ApiServices";
 
 export default defineComponent({
     name: "kt-c",
@@ -408,11 +408,10 @@ export default defineComponent({
     },
     methods: {
         async getQuotes() {
-            let response = await ApiService.get("/quotes");
-            if (response.status === 200) {
-                this.is_loading = false
-                this.list = response.data.results;
-            }
+            let response = await apiService("quotes", {
+                method: "GET"
+            });
+            console.log(response)
         },
         async searchQuotesServer(searched_fields: any []) {
             this.is_searching = true

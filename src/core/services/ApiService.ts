@@ -17,15 +17,11 @@ class ApiService {
      * @description initialize vue axios
      */
     public static init(app: App<Element>) {
-        // axios.defaults.auth = {
-        //     username: 'admin@gmail.com',
-        //     password: '12345!!'
-        // };
         ApiService.vueInstance = app;
         ApiService.vueInstance.use(VueAxios, axios);
-        ApiService.vueInstance.axios.defaults.withCredentials =  true
         ApiService.vueInstance.axios.defaults.baseURL =
             import.meta.env.VITE_APP_DJANGO_URL;
+        ApiService.vueInstance.axios.defaults.withCredentials =  true
     }
 
     /**
