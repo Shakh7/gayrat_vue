@@ -41,12 +41,13 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function login(credentials: User) {
-        ApiService.post('token/', {
+        return ApiService.post('token/', {
             email: credentials.email,
             password: credentials.password
         }).then((response) => {
-            isAuthenticated.value = true
             errors.value = []
+            isAuthenticated.value = true
+            JwtService.saveToken(response.data.access)
         }).catch((error) => {
             setError('error')
         })

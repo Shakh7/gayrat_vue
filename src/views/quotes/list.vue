@@ -97,7 +97,7 @@
                         <th v-for="(item, index) in table_headers" :key="index" class="min-w-125px py-3">
                             <select v-if="item.search_type === 'select'"
                                     class="form-select form-select-sm form-select-solid"
-                                    :placeholder="'Search ' + item.text"
+                                    :placeholder="item.text"
                                     @change="searchChange(item.value, $event.target.value)"
                             >
                                 <option value="" selected>All</option>
@@ -107,10 +107,10 @@
                             </select>
                             <input v-else-if="item.search_type === 'date'"
                                    class="form-control form-control-sm form-control-solid" type="date"
-                                   :placeholder="'Search ' + item.text" v-model="item.search"
+                                   :placeholder="item.text" v-model="item.search"
                                    @input="searchChange(item.value, $event.target.value)"/>
                             <input v-else class="form-control form-control-sm form-control-solid" type="text"
-                                   :placeholder="'Search ' + item.text"
+                                   :placeholder="item.text"
                                    @input="searchChange(item.value, $event.target.value)"/>
                         </th>
                     </tr>
@@ -278,12 +278,6 @@ export default defineComponent({
                         width: "200px",
                     },
                     {
-                        text: "Customer",
-                        value: "customer",
-                        align: "start",
-                        width: "200px",
-                    },
-                    {
                         text: "Car",
                         value: "car",
                         align: "start",
@@ -409,7 +403,10 @@ export default defineComponent({
     methods: {
         async getQuotes() {
             let response = await ApiService.get('quotes')
-            console.log(response)
+            if (response.status === 200) {
+                this.is_loading = false
+                this.list = response.data.results
+            }
         },
         async searchQuotesServer(searched_fields: any []) {
             this.is_searching = true
