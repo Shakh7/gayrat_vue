@@ -14,7 +14,7 @@ export interface User {
     email: string;
     api_token: string;
     password: string;
-    session_expire_date: string
+    session_expire_date: number
 }
 
 export const useAuthStore = defineStore("auth", () => {

@@ -1,62 +1,6 @@
 <template>
   <!--begin::Action group-->
     <div class="d-flex align-items-stretch overflow-auto pt-3 pt-lg-0">
-        <!--begin::Action wrapper-->
-        <div class="d-flex align-items-center">
-            <!--begin::Label-->
-            <span
-                    class="fs-7 fw-bold text-gray-700 pe-4 text-nowrap d-none d-xxl-block"
-            >Sort By:</span
-            >
-            <!--end::Label-->
-
-            <!--begin::Select-->
-            <select
-                    class="form-select form-select-sm form-select-solid w-100px w-xxl-125px"
-            >
-                <option value="1" selected>Latest</option>
-                <option value="2">In Progress</option>
-                <option value="3">Done</option>
-            </select>
-            <!--end::Select-->
-        </div>
-        <!--end::Action wrapper-->
-
-        <!--begin::Action wrapper-->
-        <div class="d-flex align-items-center">
-            <!--begin::Separartor-->
-            <div class="bullet bg-secondary h-35px w-1px mx-5"></div>
-            <!--end::Separartor-->
-
-            <!--begin::Label-->
-            <span class="fs-7 text-gray-700 fw-bold d-none d-sm-block"
-            >Impact <span class="d-none d-xxl-inline">Level</span>:</span
-            >
-            <!--end::Label-->
-
-            <!--begin::NoUiSlider-->
-            <div class="d-flex align-items-center ps-4" id="kt_toolbar">
-                <div
-                        id="kt_toolbar_slider"
-                        class="noUi-target noUi-target-primary w-75px w-xxl-150px noUi-sm"
-                ></div>
-
-                <span
-                        id="kt_toolbar_slider_value"
-                        class="d-flex flex-center bg-light-primary rounded-circle w-35px h-35px ms-4 fs-7 fw-bold text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title="Set impact level"
-                >
-        </span>
-            </div>
-            <!--end::NoUiSlider-->
-
-            <!--begin::Separartor-->
-            <div class="bullet bg-secondary h-35px w-1px mx-5"></div>
-            <!--end::Separartor-->
-        </div>
-        <!--end::Action wrapper-->
 
         <!--begin::Action wrapper-->
         <div class="d-flex align-items-center">
@@ -82,23 +26,6 @@
           </span>
                 </a>
                 <!--end::Action-->
-
-                <!--begin::Notifications-->
-                <div class="d-flex align-items-center">
-                    <!--begin::Menu- wrapper-->
-                    <router-link
-                            to="/apps/subscriptions/add-subscription"
-                            class="btn btn-sm btn-icon btn-icon-muted btn-active-icon-primary"
-                    >
-            <span class="svg-icon svg-icon-1">
-              <inline-svg
-                      :src="getAssetPath('media/icons/duotune/files/fil005.svg')"
-              />
-            </span>
-                    </router-link>
-                    <!--end::Menu wrapper-->
-                </div>
-                <!--end::Notifications-->
 
                 <!--begin::Quick links-->
                 <div class="d-flex align-items-center">
@@ -148,8 +75,11 @@
             <KTThemeModeSwitcher></KTThemeModeSwitcher>
         </div>
         <!--end::Theme mode-->
+        {{ user.session_expire_date }}
     </div>
   <!--end::Action group-->
+
+
 </template>
 
 <script lang="ts">
@@ -157,6 +87,7 @@ import {getAssetPath} from "@/core/helpers/assets";
 import {defineComponent, onMounted} from "vue";
 import noUiSlider from "nouislider";
 import KTThemeModeSwitcher from "@/layouts/main-layout/theme-mode/ThemeModeSwitcher.vue";
+import {useAuthStore} from "@/stores/auth"
 
 export default defineComponent({
     name: "layout-topbar",
@@ -205,5 +136,15 @@ export default defineComponent({
             getAssetPath,
         };
     },
+    data() {
+        return {
+            store: useAuthStore()
+        }
+    },
+    computed: {
+        user() {
+            return this.store.user
+        }
+    }
 });
 </script>

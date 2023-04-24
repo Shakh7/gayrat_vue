@@ -52,11 +52,11 @@
         </div>
 
         <div
-                class="toolbar d-flex align-items-stretch"
+                class="toolbar d-flex align-items-stretch ps-0"
                 :class="{
-        'container-fluid': headerWidthFluid,
-        'container-xxl': !headerWidthFluid,
-      }"
+    'container-fluid': headerWidthFluid,
+    'container-xxl': !headerWidthFluid,
+  }"
         >
             <div
                     class="container-fluid py-6 py-lg-0 d-flex flex-column flex-lg-row align-items-lg-stretch justify-content-lg-between"
@@ -64,6 +64,17 @@
             >
                 <PageTitle></PageTitle>
                 <KTTopbar/>
+                <div class="d-flex d-lg-none w-100 mt-5">
+                    <div class="bg-primary rounded h-3px" role="progressbar" aria-valuenow="50" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 50%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-none d-lg-flex w-100 position-absolute bottom-0">
+            {{ session_timeout }}
+            <div class="bg-primary rounded h-3px" role="progressbar" aria-valuenow="50" aria-valuemin="0"
+                 aria-valuemax="100" style="width: 50%;">
             </div>
         </div>
     </div>
@@ -74,6 +85,7 @@ import {getAssetPath} from "@/core/helpers/assets";
 import {defineComponent} from "vue";
 import KTTopbar from "@/layouts/main-layout/header/Topbar.vue";
 import PageTitle from "@/layouts/main-layout/page-title/PageTitle.vue";
+import {useAuthStore} from "@/stores/auth"
 
 import {
     headerWidthFluid,
@@ -97,5 +109,24 @@ export default defineComponent({
             getAssetPath,
         };
     },
+    data() {
+        return {
+            store: useAuthStore()
+        }
+    },
+    computed: {
+        session_timeout() {
+            return this.store.user.session_expire_date
+        }
+    }
 });
 </script>
+
+<style>
+.session-timeout-progess-bar {
+    background: blue;
+    position: absolute;
+    bottom: 0;
+    left: 0
+}
+</style>
