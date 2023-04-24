@@ -408,10 +408,14 @@ export default defineComponent({
     },
     methods: {
         async getQuotes() {
-            let response = await apiService("quotes", {
-                method: "GET"
+            let response = await fetch("http://127.0.0.1:8000/api/quotes", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                mode: 'cors'
             });
-            console.log(response)
         },
         async searchQuotesServer(searched_fields: any []) {
             this.is_searching = true

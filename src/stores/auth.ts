@@ -5,6 +5,7 @@ import JwtService from "@/core/services/JwtService";
 import router from "@/router/index"
 import axios from "axios";
 import {apiService} from "@/core/services/ApiServices";
+import {CookieComponent} from "@/assets/ts/components";
 
 export interface User {
     id: number;
@@ -12,7 +13,8 @@ export interface User {
     user_type: string;
     email: string;
     api_token: string;
-    password: string
+    password: string;
+    session_expire_date: string
 }
 
 export const useAuthStore = defineStore("auth", () => {
@@ -39,32 +41,16 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function login(credentials: User) {
-        return apiService('login', {
-            method: 'POST',
-            body: JSON.stringify({
-                email: credentials.email,
-                password: credentials.password
-            })
+        ApiService.post('http://127.0.0.1:8000/api/login', {
+            email: credentials.email,
+            password: credentials.password
         }).then((response) => {
-            errors.value = []
             isAuthenticated.value = true
-        }).catch(error => {
-            setError(Object.values(JSON.parse((error.message)))[0])
+            errors.value = []
+        }).catch((error) => {
+            alert('error')
         })
 
-        // ApiService.post('http://127.0.0.1:8000/api/login', {
-        //     email: credentials.email,
-        //     password: credentials.password
-        // })
-        //     .then((response) => {
-        //         isAuthenticated.value = true
-        //     })
-        // return ApiService.post("/login", credentials)
-        //     .then(({data}) => {
-        //         // JwtService.saveToken(data.access);
-        //     })
-        //     .catch(({response}) => {
-        //     });
     }
 
     function logout() {
@@ -92,28 +78,27 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function verifyAuth() {
-        // if (JwtService.getToken()) {
-        //     // ApiService.setHeader();
-        //     ApiService.post("/token/verify/", {token: JwtService.getToken()})
-        //         .then(({data}) => {
-        //             let user_info = {
-        //                 id: data.user.id,
-        //                 full_name: data.user.full_name,
-        //                 user_type: data.user.user_type,
-        //                 email: data.user.email,
-        //                 api_token: data.access,
-        //             } as User;
-        //             setAuth(user_info);
-        //         })
-        //         .catch(() => {
-        //             purgeAuth();
-        //             router.push({name: 'sign-in'})
-        //         });
-        // } else {
-        //     console.log('no token')
-        //     purgeAuth();
-        // }
-        return null
+        if (JwtService.getToken()) {
+            ApiService.setHeader();
+            ApiService.post("/token/verify/", {token: JwtService.getToken()})
+                .then(({data}) => {
+                    let user_info = {
+                        id: data.user.id,
+                        full_name: data.user.full_name,
+                        user_type: data.user.user_type,
+                        email: data.user.email,
+                        api_token: data.access,
+                        session_expire_date: data.exp
+                    } as User;
+                    setAuth(user_info);
+                })
+                .catch(() => {
+                    purgeAuth();
+                    router.push({name: 'sign-in'})
+                });
+        } else {
+            purgeAuth();
+        }
     }
 
     return {
