@@ -41,7 +41,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
 
     function login(credentials: User) {
-        ApiService.post('http://127.0.0.1:8000/api/login', {
+        ApiService.post('login', {
             email: credentials.email,
             password: credentials.password
         }).then((response) => {
