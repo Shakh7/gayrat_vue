@@ -1,12 +1,26 @@
 <template>
-    <div class="rounded h-3px"
-         :class="'bg-'+ progress_color"
-         role="progressbar"
-         :aria-valuenow="seconds_left"
-         aria-valuemin="0"
-         :aria-valuemax="300"
-         :style="{width: seconds_left.toString() + '%'}">
+    <div class="d-flex align-items-center flex-column">
+        <div class="d-flex justify-content-between w-100 mt-auto mb-2">
+            <small class="text-gray-400">Session timeout</small>
+            <div class="text-gray-400">
+                <small>
+                    {{ (total_seconds_left / 60).toFixed(0) }}:
+                    {{ String((total_seconds_left % 60).toFixed(0)).padStart(2, '0') }}
+                </small>
+            </div>
+        </div>
+        <div class="h-5px mx-3 w-100 mb-3">
+            <div class="rounded"
+                 :class="'bg-'+ progress_color + ' h-' + bar_height + 'px'"
+                 role="progressbar"
+                 :aria-valuenow="seconds_left"
+                 aria-valuemin="0"
+                 :aria-valuemax="300"
+                 :style="{width: seconds_left.toString() + '%'}">
+            </div>
+        </div>
     </div>
+
 </template>
 
 <script lang="ts">
@@ -20,6 +34,7 @@ export default defineComponent({
             store: useAuthStore(),
             total_seconds_left: 0,
             total_time_in_seconds: 300,
+            bar_height: 3
         }
     },
     computed: {
