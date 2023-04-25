@@ -17,14 +17,7 @@
             <AsideToolbar/>
 
             <div class="px-5">
-                <div class="rounded h-3px"
-                     :class="'bg-'+ progress_color"
-                     role="progressbar"
-                     :aria-valuenow="seconds_left"
-                     aria-valuemin="0"
-                     :aria-valuemax="300"
-                     :style="{width: seconds_left.toString() + '%'}">
-                </div>
+                <AuthSession/>
             </div>
             <!--end::Aside user-->
         </div>
@@ -59,12 +52,14 @@ import {useI18n} from "vue-i18n";
 import KTMenu from "@/layouts/main-layout/aside/Menu.vue";
 import AsideToolbar from "@/layouts/main-layout/aside/AsideToolbar.vue";
 import {useAuthStore} from "@/stores/auth";
+import AuthSession from "@/layouts/main-layout/aside/AuthSession.vue";
 
 export default defineComponent({
     name: "KTAside",
     components: {
         KTMenu,
         AsideToolbar,
+        AuthSession
     },
     props: {
         lightLogo: String,
@@ -80,23 +75,6 @@ export default defineComponent({
     data() {
         return {
             store: useAuthStore(),
-            total_seconds_left: 0,
-            total_time_in_seconds: 300,
-        }
-    },
-    computed: {
-        seconds_left() {
-            return ((this.total_seconds_left / this.total_time_in_seconds) * 100).toFixed(1)
-        },
-        progress_color() {
-            const seconds_left = parseFloat(this.seconds_left)
-            if (seconds_left <= 10) {
-                return 'danger'
-            } else if (seconds_left <= 50) {
-                return 'warning'
-            } else {
-                return 'primary'
-            }
         }
     },
     methods: {
@@ -104,25 +82,6 @@ export default defineComponent({
             this.store.logout()
             location.reload();
         },
-        sesstion_timeleft() {
-            const expiresIn = this.store.user.session_expire_date - Math.floor(Date.now() / 1000)
-            isNaN(expiresIn) ? this.total_seconds_left = 0 : this.total_seconds_left = expiresIn
-        }
     },
-    mounted() {
-        this.sesstion_timeleft()
-        setInterval(() => {
-            this.sesstion_timeleft()
-        }, 500)
-    },
-    watch: {
-        seconds_left(newValue) {
-            let percant_left = parseFloat(newValue)
-            if (percant_left <= 0) {
-                this.store.logout()
-                location.reload();
-            }
-        }
-    }
 });
 </script>
