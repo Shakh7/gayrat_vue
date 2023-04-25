@@ -14,7 +14,7 @@ export interface User {
     email: string;
     api_token: string;
     password: string;
-    session_expire_date: number
+    session_expire_date: number,
 }
 
 export const useAuthStore = defineStore("auth", () => {
@@ -51,7 +51,6 @@ export const useAuthStore = defineStore("auth", () => {
         }).catch((error) => {
             setError('error')
         })
-
     }
 
     function logout() {

@@ -75,7 +75,6 @@
             <KTThemeModeSwitcher></KTThemeModeSwitcher>
         </div>
         <!--end::Theme mode-->
-        {{ user.session_expire_date }}
     </div>
   <!--end::Action group-->
 
@@ -136,15 +135,5 @@ export default defineComponent({
             getAssetPath,
         };
     },
-    data() {
-        return {
-            store: useAuthStore()
-        }
-    },
-    computed: {
-        user() {
-            return this.store.user
-        }
-    }
 });
 </script>
