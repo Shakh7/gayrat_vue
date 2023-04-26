@@ -23,11 +23,15 @@
                     >
                     <!--end::Username-->
 
-                    <!--begin::Description-->
-                    <span class="text-gray-600 fw-semobold d-block fs-8 mb-1"
-                    >
-                        {{ getUserType }}
+                    <span class="text-gray-600 fw-semobold d-block fs-8 mb-1">
+                         {{ store.user.email }}
                     </span>
+
+                    <!--begin::Description-->
+                    <!--                    <span class="text-gray-600 fw-semobold d-block fs-8 mb-1"-->
+                    <!--                    >-->
+                    <!--                        {{ getUserType }}-->
+                    <!--                    </span>-->
                     <!--end::Description-->
 
                     <!--begin::Label-->
@@ -42,17 +46,17 @@
                 <!--                <div class="me-n2">-->
                 <!--                    &lt;!&ndash;begin::Action&ndash;&gt;-->
                 <!--                    <a-->
-                <!--                            href="#"-->
-                <!--                            class="btn btn-icon btn-sm btn-active-color-primary mt-n2"-->
-                <!--                            data-kt-menu-trigger="click"-->
-                <!--                            data-kt-menu-placement="bottom-start"-->
-                <!--                            data-kt-menu-overflow="true"-->
+                <!--                        href="#"-->
+                <!--                        class="btn btn-icon btn-sm btn-active-color-primary mt-n2"-->
+                <!--                        data-kt-menu-trigger="click"-->
+                <!--                        data-kt-menu-placement="bottom-start"-->
+                <!--                        data-kt-menu-overflow="true"-->
                 <!--                    >-->
-                <!--            <span class="svg-icon svg-icon-muted svg-icon-1">-->
-                <!--              <inline-svg-->
-                <!--                      :src="getAssetPath('media/icons/duotune/coding/cod001.svg')"-->
-                <!--              />-->
-                <!--            </span>-->
+                <!--                            <span class="svg-icon svg-icon-muted svg-icon-1">-->
+                <!--                              <inline-svg-->
+                <!--                                  :src="getAssetPath('media/icons/duotune/coding/cod001.svg')"-->
+                <!--                              />-->
+                <!--                            </span>-->
                 <!--                    </a>-->
 
                 <!--                    <UserMenu/>-->
@@ -96,7 +100,8 @@ export default defineComponent({
     computed: {
         getUserType() {
             if (Object.keys(this.store.user).length > 0) {
-                let convertedStr = this.store.user.user_type.replace(/_/g, ' ').toLowerCase().split(' ');
+                let convertedStr = this.store.user.user_type
+                    .replace(/_/g, ' ').toLowerCase().split(' ');
                 for (let i = 0; i < convertedStr.length; i++) {
                     convertedStr[i] = convertedStr[i].charAt(0).toUpperCase() + convertedStr[i].slice(1);
                 }

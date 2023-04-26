@@ -19,7 +19,7 @@
                     :currentlySelectedItems="selectedItems"
                     :data="data"
                     :header="header"
-                    :checkbox-enabled="checkboxEnabled"
+                    :checkbox-enabled="checkboxEnslotsabled"
                     :checkbox-label="checkboxLabel"
             >
                 <template v-for="(_, name) in $slots" v-slot:[name]="{ row: item }">

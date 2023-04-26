@@ -31,7 +31,7 @@
                             </div>
                         </th>
                         <th v-for="(item, index) in headers" :key="index"
-                            :class="'text-' + item.align + ' min-w-' + item.width + 'px'"
+                            :class="'text-' + item.align + item.width !== undefined ? ' min-w-' + item.width : ' min-w-125px'"
                             class="py-3"
                         >
                             <select v-if="item.search_type === 'select'"
@@ -88,7 +88,7 @@ export interface Thead {
     label: string,
     value: string,
     align?: 'start' | 'center' | 'end',
-    width?: string | '200px',
+    width?: string | '75px' | '100px' | '200px' ,
     search_type?: 'input' | 'select' | 'date',
     select_options?: { value: string; label: string }[];
 }
