@@ -29,6 +29,7 @@ const routes: Array<RouteRecordRaw> = [
 
     {
         path: "/quotes",
+        redirect: "quotes",
         component: () => import("@/layouts/main-layout/MainLayout.vue"),
         meta: {
             middleware: "auth",
@@ -54,6 +55,27 @@ const routes: Array<RouteRecordRaw> = [
             },
         ],
     },
+
+    {
+        path: "/leads",
+        redirect: "leads",
+        component: () => import("@/layouts/main-layout/MainLayout.vue"),
+        meta: {
+            middleware: "auth",
+        },
+        children: [
+            {
+                path: "",
+                name: "leads",
+                component: () => import("@/views/leads/list.vue"),
+                meta: {
+                    pageTitle: "Leads",
+                    breadcrumbs: ["Leads"],
+                },
+            },
+        ],
+    },
+
     {
         path: "/clients",
         component: () => import("@/layouts/main-layout/MainLayout.vue"),

@@ -26,6 +26,12 @@ const MainMenuConfig: Array<MenuItem> = [
                 fontIcon: "bi-layers",
             },
             {
+                heading: "Leads",
+                route: "/leads",
+                svgIcon: getAssetPath("media/icons/duotune/general/gen008.svg"),
+                fontIcon: "bi-layers",
+            },
+            {
                 heading: "Clients",
                 route: "/clients",
                 svgIcon: getAssetPath("media/icons/duotune/general/gen019.svg"),
