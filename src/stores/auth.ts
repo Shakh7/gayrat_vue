@@ -12,7 +12,8 @@ export interface User {
     full_name: string;
     user_type: string;
     email: string;
-    api_token: string;
+    access_token: string;
+    refresh_token: string,
     password: string;
     session_expire_date: number,
 }
@@ -26,7 +27,7 @@ export const useAuthStore = defineStore("auth", () => {
         isAuthenticated.value = true;
         user.value = authUser;
         errors.value = [];
-        JwtService.saveToken(user.value.api_token);
+        JwtService.saveToken(user.value.access_token);
     }
 
     function setError(error: any) {
@@ -47,6 +48,7 @@ export const useAuthStore = defineStore("auth", () => {
         }).then((response) => {
             errors.value = []
             isAuthenticated.value = true
+            user.value.refresh_token = response.data.refresh
             JwtService.saveToken(response.data.access)
         }).catch((error) => {
             setError('error')
@@ -87,7 +89,7 @@ export const useAuthStore = defineStore("auth", () => {
                         full_name: data.user.full_name,
                         user_type: data.user.user_type,
                         email: data.user.email,
-                        api_token: data.access,
+                        access_token: data.access,
                         session_expire_date: data.exp
                     } as User;
                     setAuth(user_info);
