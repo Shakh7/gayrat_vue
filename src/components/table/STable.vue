@@ -3,19 +3,14 @@
     <div class="card">
         <div class="card-header border-0 pt-5">
             <h3 class="card-title align-items-start flex-column">
-                <span class="card-label fw-bold fs-3 mb-1">Quotes List</span>
+                <span class="card-label fw-bold fs-3 mb-1">{{ name }} Table</span>
 
                 <span class="text-muted mt-1 fw-semobold fs-7"
-                >Over 500 new quotes</span
+                >Over 500 {{ name }}</span
                 >
             </h3>
             <div class="card-toolbar">
-                <div>
-                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#share_quotes_model">
-                        Share Quotes
-                    </button>
-                </div>
+                <inline-svg :src="getAssetPath('media/icons/duotune/general/gen019.svg')"></inline-svg>
             </div>
         </div>
 
@@ -31,11 +26,12 @@
                             </div>
                         </th>
                         <th v-for="(item, index) in headers" :key="index"
-                            :class="'text-' + item.align + item.width !== undefined ? ' min-w-' + item.width : ' min-w-125px'"
+                            :class="'text-' + item.align"
+                            :style="'max-width: ' + item.width"
                             class="py-3"
                         >
                             <select v-if="item.search_type === 'select'"
-                                    class="form-select form-select-sm form-select-solid"
+                                    class="form-select form-select-sm form-select-solid w-50"
                                     :placeholder="item.label"
                             >
                                 <option value="" selected>All</option>
@@ -44,7 +40,7 @@
                                 </option>
                             </select>
                             <input v-else-if="item.search_type==='date'"
-                                   class="form-control form-control-sm form-control-solid" type="date"
+                                   class="form-control form-control-sm form-control-solid w-100" type="date"
                                    :placeholder="item.label">
                             <input v-else class="form-control form-control-sm form-control-solid" type="text"
                                    :placeholder="item.label">
@@ -60,7 +56,7 @@
                                 </div>
                             </th>
                             <th v-for="tr in headers" :class="'text-' + tr.align">
-                                <span v-if="d[tr.value]">
+                                <span v-if="d[tr.value]" class="text-dark">
                                     <slot :name="tr.value" :row="d" :key="tr.value">
                                         {{ d[tr.value] }}
                                     </slot>
@@ -83,12 +79,13 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import ApiService from "@/core/services/ApiService"
+import {getAssetPath} from "@/core/helpers/assets";
 
 export interface Thead {
     label: string,
     value: string,
     align?: 'start' | 'center' | 'end',
-    width?: string | '75px' | '100px' | '200px' ,
+    width?: string | '75px' | '100px' | '200px',
     search_type?: 'input' | 'select' | 'date',
     select_options?: { value: string; label: string }[];
 }
@@ -96,6 +93,11 @@ export interface Thead {
 export default defineComponent({
     name: "STable",
     props: {
+        name: {
+            type: String,
+            required: false,
+                default: () => 'Table'
+        },
         headers: {
             type: Array as () => Thead[],
             required: true,
@@ -107,10 +109,12 @@ export default defineComponent({
     },
     data() {
         return {
-            data: []
+            data: [],
+            selected: []
         }
     },
     methods: {
+        getAssetPath,
         async getData() {
             if (!this.api_url) return
             let response = await ApiService.get(this.api_url)

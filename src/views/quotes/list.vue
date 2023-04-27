@@ -1,7 +1,7 @@
 <template>
 
     <div class="mb-10">
-        <STable :headers="table_headers" :api_url="table_url">
+        <STable name="Quotes" :headers="table_headers" :api_url="table_url">
             <template v-slot:id="props">
                 <span>{{ props.row.id.toString().slice(0, 8) }}...</span>
             </template>
@@ -127,7 +127,7 @@
         </STable>
     </div>
 
-    <ShareQuotesModal :quotes="selected_quotes"/>
+    <ShareQuotesModal/>
 </template>
 
 <script lang="ts">
@@ -150,16 +150,9 @@ export default defineComponent({
                 align: 'center',
             },
             {
-                label: "Received Date",
-                value: "created_at",
-                align: "center",
-                search_type: 'date'
-            },
-            {
                 label: "Customer",
                 value: "customer",
                 align: "center",
-                width: "150px"
             },
             {
                 label: "Car",
