@@ -44,15 +44,6 @@ const routes: Array<RouteRecordRaw> = [
                     breadcrumbs: ["Quotes"],
                 },
             },
-            {
-                path: ":id",
-                name: "quote-details",
-                component: () => import("@/views/crafted/pages/quotes/AddSubscription.vue"),
-                meta: {
-                    pageTitle: "Quotes",
-                    breadcrumbs: ["Quotes"],
-                },
-            },
         ],
     },
 
