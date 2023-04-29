@@ -1,12 +1,42 @@
 <template>
 
     <div class="mb-10">
-        <STable name="Quotes" :headers="table_headers" :api_url="table_url">
+        <STable name="Quotes" :headers="table_headers" :api_url="table_url"
+                @onSelect="onSelect"
+                :getUpdate="table_get_update">
+            <template v-slot:topRight>
+                <ShareQuotesModal @created="table_get_update = !table_get_update"
+                                  :quotes="slected_quotes"/>
+            </template>
             <template v-slot:id="props">
-                <span>{{ props.row.id.toString().slice(0, 8) }}...</span>
+                <div class="d-flex justify-content-start flex-column text-start">
+                    <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">
+                        {{ props.row.id.toString().slice(0, 8) }}...
+                    </a>
+                    <small class="text-muted fw-semobold text-muted d-block">
+                        Unique ID
+                    </small>
+                </div>
             </template>
             <template v-slot:created_at="props">
-                <span>{{ props.row.created_at.slice(0, 10) }}</span>
+                <div class="d-flex justify-content-start flex-column text-start">
+                    <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">
+                        {{ props.row.created_at.slice(0, 10) }}
+                    </a>
+                    <small class="text-muted fw-semobold text-muted d-block">
+                        Date Recevied
+                    </small>
+                </div>
+            </template>
+            <template v-slot:pick_up_date="props">
+                <div class="d-flex justify-content-start flex-column text-start">
+                    <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">
+                        {{ props.row.pick_up_date.slice(0, 10) }}
+                    </a>
+                    <small class="text-muted fw-semobold text-muted d-block">
+                        Pick up Date
+                    </small>
+                </div>
             </template>
             <template v-slot:is_operable="props">
                 <span class="badge" :class="{
@@ -19,9 +49,9 @@
                     <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">
                         {{ props.row.customer.full_name }}
                     </a>
-                    <span class="text-muted fw-semobold text-muted d-block fs-7">
+                    <small class="text-muted fw-semobold text-muted d-block">
                         {{ props.row.customer.email }}
-                    </span>
+                    </small>
                 </div>
             </template>
             <template v-slot:car_make="props">
@@ -29,9 +59,9 @@
                     <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">
                         {{ props.row.car_model }}
                     </a>
-                    <span class="text-muted fw-semobold text-muted d-block fs-7">
+                    <small class="text-muted fw-semobold text-muted d-block fs-7">
                         {{ props.row.car_make + ', ' + props.row.car_year }}
-                    </span>
+                    </small>
                 </div>
             </template>
             <template v-slot:origin="props">
@@ -39,9 +69,9 @@
                     <h6 class="text-dark fw-bold text-hover-primary mb-1 fs-6">
                         {{ props.row.origin.city_name }}
                     </h6>
-                    <span class="text-muted fw-semobold text-muted d-block fs-7">
+                    <small class="text-muted fw-semobold text-muted d-block fs-7">
                         {{ props.row.origin.state_name + ', ' + props.row.origin.zip_code }}
-                    </span>
+                    </small>
                 </div>
             </template>
             <template v-slot:destination="props">
@@ -49,9 +79,9 @@
                     <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">
                         {{ props.row.destination.city_name }}
                     </a>
-                    <span class="text-muted fw-semobold text-muted d-block fs-7">
+                    <small class="text-muted fw-semobold text-muted d-block">
                         {{ props.row.destination.state_name + ', ' + props.row.destination.zip_code }}
-                    </span>
+                    </small>
                 </div>
             </template>
 
@@ -126,14 +156,12 @@
             </template>
         </STable>
     </div>
-
-    <ShareQuotesModal/>
 </template>
 
 <script lang="ts">
 import {getAssetPath} from "@/core/helpers/assets";
 import {defineComponent} from "vue";
-import ShareQuotesModal from "@/components/modals/forms/ShareQuotesModal.vue";
+import ShareQuotesModal from "@/views/quotes/modals/ShareQuotes.vue";
 import STable, {type Thead} from "@/components/table/STable.vue"
 
 export default defineComponent({
@@ -150,27 +178,38 @@ export default defineComponent({
                 align: 'center',
             },
             {
+                label: "Created Date",
+                value: "created_at",
+                align: "center",
+                width: "250px"
+            },
+            {
                 label: "Customer",
                 value: "customer",
+                align: "center",
+            },
+            {
+                label: "Pick up Date",
+                value: "pick_up_date",
                 align: "center",
             },
             {
                 label: "Car",
                 value: "car_make",
                 align: "center",
-                width: "150px"
+                width: "250px"
             },
             {
                 label: "Origin",
                 value: "origin",
                 align: "center",
-                width: "175px"
+                width: "250px"
             },
             {
                 label: "Destination",
                 value: "destination",
                 align: "center",
-                width: "175px"
+                width: "250px"
             },
             {
                 label: "Times Shared",
@@ -192,13 +231,22 @@ export default defineComponent({
             },
         ];
         let table_url = 'quotes'
+        let table_get_update = true
 
         return {
             getAssetPath,
             table_headers: table_headers,
-            table_url: table_url
+            table_url: table_url,
+            table_get_update: table_get_update,
+            slected_quotes: []
         };
     },
+    methods: {
+        onSelect(selecteds) {
+            this.slected_quotes = JSON.parse(JSON.stringify(selecteds))
+        }
+    }
 })
 
 </script>
+

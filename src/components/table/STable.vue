@@ -5,11 +5,14 @@
             <h3 class="card-title align-items-start flex-column">
                 <span class="card-label fw-bold fs-3 mb-1">{{ name }} Table</span>
 
-                <span class="text-muted mt-1 fw-semobold fs-7"
-                >Over 500 {{ name }}</span
-                >
+                <span class="text-muted mt-1 fw-semobold fs-7">
+                    Over 500 {{ name }}
+                </span>
             </h3>
             <div class="card-toolbar">
+                <div class="me-5">
+                    <slot name="topRight"></slot>
+                </div>
                 <inline-svg :src="getAssetPath('media/icons/duotune/general/gen019.svg')"></inline-svg>
             </div>
         </div>
@@ -22,7 +25,9 @@
                     <tr class="fw-bold text-muted bg-light align-middle">
                         <th style="max-width: 50px" class="ps-4 py-3 rounded-start">
                             <div class="form-check form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox">
+                                <input :checked="selected.length === data.length"
+                                       @click="selectAll"
+                                       class="form-check-input" type="checkbox">
                             </div>
                         </th>
                         <th v-for="(item, index) in headers" :key="index"
@@ -47,12 +52,15 @@
                         </th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <!-- Loaded and no error occered -->
+                    <tbody v-if="!loading && !error.status">
                     <template v-for="d in data" :key="d">
                         <tr>
                             <th style="max-width: 50px" class="ps-4 py-3 rounded-start">
                                 <div class="form-check form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox">
+                                    <input @click="selectSingle(d)"
+                                           :checked="selected.map(i => i.id).includes(d.id)"
+                                           class="form-check-input" type="checkbox">
                                 </div>
                             </th>
                             <th v-for="tr in headers" :class="'text-' + tr.align">
@@ -70,6 +78,60 @@
                         </tr>
                     </template>
                     </tbody>
+
+                    <!-- Loading and no error occered -->
+                    <tbody v-else-if="loading">
+                    <tr v-for="i in 2" :key="i + '_sekeleton_row'">
+                        <th style="min-width: 50px">
+                        </th>
+                        <td v-for="td in headers" :key="td.value" class="py-5">
+                            <div class="w-75 mx-auto">
+                                <skeleton/>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <!-- Loaded and error occered -->
+                    <tbody v-if="!loading && error.status">
+                    <tr>
+
+                        <td :colspan="headers.length + 1">
+                            <div class="alert alert-dismissible bg-light-danger
+                             d-flex flex-center flex-column py-10 px-10 px-lg-20"
+                            >
+                                <button type="button"
+                                        class=" position-absolute top-0 end-0 m-2 btn btn-icon btn-icon-danger"
+                                        data-bs-dismiss="alert"
+                                >
+                                  <span class="svg-icon svg-icon-1">
+                                    <inline-svg src="media/icons/duotune/arrows/arr061.svg"/>
+                                  </span>
+                                </button>
+
+                                <span class="svg-icon svg-icon-5tx svg-icon-danger mb-5">
+                                    <inline-svg src="media/icons/duotune/general/gen044.svg"/>
+                                </span>
+
+                                <div class="text-center text-dark">
+                                    <h1 class="fw-bolder mb-5">{{ error.title }}</h1>
+                                    <div class="separator separator-dashed border-danger opacity-25 mb-5">
+                                    </div>
+
+                                    <div class="mb-9">
+                                        {{ error.message }}
+                                    </div>
+                                    <!--                                    <div class="d-flex flex-center flex-wrap">-->
+                                    <!--                                        <a href="#" class="btn btn-outline btn-outline-danger btn-active-danger m-2">-->
+                                    <!--                                            Cancel-->
+                                    <!--                                        </a>-->
+                                    <!--                                        <a href="#" class="btn btn-danger m-2">Ok, I got it</a>-->
+                                    <!--                                    </div>-->
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -80,6 +142,7 @@
 import {defineComponent} from "vue";
 import ApiService from "@/core/services/ApiService"
 import {getAssetPath} from "@/core/helpers/assets";
+import skeleton from "@/components/skeletons/skeleton.vue"
 
 export interface Thead {
     label: string,
@@ -91,12 +154,13 @@ export interface Thead {
 }
 
 export default defineComponent({
+    emits: ['onSelect'],
     name: "STable",
     props: {
         name: {
             type: String,
             required: false,
-                default: () => 'Table'
+            default: () => 'Table'
         },
         headers: {
             type: Array as () => Thead[],
@@ -105,30 +169,71 @@ export default defineComponent({
         api_url: {
             type: String,
             required: true,
+        },
+        getUpdate: {
+            type: Boolean,
+            required: false
         }
     },
+    components: {skeleton},
     data() {
         return {
             data: [],
-            selected: []
+            selected: [] as any,
+            loading: true,
+            error: {
+                status: false,
+                title: 'Success',
+                message: 'No Error Occured'
+            }
         }
     },
     methods: {
         getAssetPath,
         async getData() {
             if (!this.api_url) return
-            let response = await ApiService.get(this.api_url)
-            if (response.status === 200) {
+            try {
+                let response = await ApiService.get(this.api_url)
                 this.data = response.data.results
+            } catch (error) {
+                this.error.status = true
+                this.error.title = error.response.statusText
+                this.error.message = error.response.data.detail
             }
+            this.loading = false
+        },
+        selectSingle(row) {
+            const index = this.selected.findIndex(item => item.id === row.id);
+            if (index !== -1) {
+                this.selected.splice(index, 1);
+            } else {
+                this.selected.push(row)
+            }
+            this.$emit('onSelect', this.selected)
+        },
+        selectAll() {
+            this.selected.length === this.data.length
+                ? this.selected = []
+                : this.selected = [...this.data]
+            this.$emit('onSelect', this.selected)
+        },
+        unselectAll() {
+            this.selected = []
+            this.$emit('onSelect', this.selected)
         }
     },
     mounted() {
+        this.loading = true
         this.getData()
+    },
+    watch: {
+        getUpdate() {
+            this.unselectAll()
+            this.getData()
+        }
     }
 })
 </script>
 
-<style scoped>
-
+<style>
 </style>

@@ -3,13 +3,46 @@
     <div class="mb-10">
         <STable name="Leads" :headers="table_headers" :api_url="table_url">
             <template v-slot:quote="props">
-                <span v-if="props.row.quote">{{ props.row.quote.id }}..</span>
+                <div class="d-flex justify-content-start flex-column text-start">
+                    <a class="text-dark fw-bold text-hover-primary mb-1 fs-6">
+                        {{ props.row.quote.id }}
+                    </a>
+                    <span class="text-muted fw-semobold text-muted d-block fs-7">
+                        <span class="text-gray-700">Received at:</span> {{
+                        new Date(props.row.quote.created_at).toISOString().slice(0, 10)
+                        }}
+                    </span>
+                </div>
             </template>
             <template v-slot:client="props">
-                <span v-if="props.row.client">{{ props.row.client.full_name }}</span>
+                <div class="d-flex justify-content-start flex-column text-start">
+                    <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">
+                        {{ props.row.client.full_name }}
+                    </span>
+                    <span class="text-muted fw-semobold text-muted d-block fs-7">
+                        {{ props.row.client.email }}
+                    </span>
+                </div>
+            </template>
+            <template v-slot:price="props">
+                <div class="d-flex justify-content-start flex-column text-start">
+                    <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">
+                        ${{ props.row.price }}
+                    </span>
+                    <span class="text-muted fw-semobold text-muted d-block fs-7">
+                        Price
+                    </span>
+                </div>
             </template>
             <template v-slot:created_at="props">
-                <span>{{ formatDate(new Date(props.row.created_at)) }}</span>
+                <div class="d-flex justify-content-start flex-column ">
+                    <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">
+                        {{ new Date(props.row.created_at).toISOString().slice(0, 10) }}
+                    </span>
+                    <span class="text-muted fw-semobold text-muted d-block fs-7">
+                        Shared date
+                    </span>
+                </div>
             </template>
         </STable>
     </div>

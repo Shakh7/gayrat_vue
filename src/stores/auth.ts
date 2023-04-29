@@ -51,7 +51,7 @@ export const useAuthStore = defineStore("auth", () => {
             user.value.refresh_token = response.data.refresh
             JwtService.saveToken(response.data.access)
         }).catch((error) => {
-            setError('error')
+            setError(Object.values(error.response.data)[0])
         })
     }
 
