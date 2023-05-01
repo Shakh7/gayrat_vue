@@ -7,5 +7,5 @@ export interface Lead {
 }
 
 export async function createLeads(leads: Lead[]) {
-    ApiService.post('leads/create/', leads)
+    return await ApiService.post('leads/create/', leads)
 }

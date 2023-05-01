@@ -21,7 +21,7 @@ class ApiService {
         ApiService.vueInstance.use(VueAxios, axios);
         ApiService.vueInstance.axios.defaults.baseURL =
             import.meta.env.VITE_APP_DJANGO_URL;
-        ApiService.vueInstance.axios.defaults.withCredentials =  true
+        ApiService.vueInstance.axios.defaults.withCredentials = true
     }
 
     /**
@@ -50,9 +50,9 @@ class ApiService {
      */
     public static get(
         resource: string,
-        slug = "" as string
+        config = {} as Object,
     ): Promise<AxiosResponse> {
-        return ApiService.vueInstance.axios.get(`${resource}/${slug}`);
+        return ApiService.vueInstance.axios.get(`${resource}/`, config);
     }
 
     /**

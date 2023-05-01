@@ -30,14 +30,15 @@
                                        class="form-check-input" type="checkbox">
                             </div>
                         </th>
-                        <th v-for="(item, index) in headers" :key="index"
+                        <th v-for="(item, index) in headers_computed" :key="index"
                             :class="'text-' + item.align"
                             :style="'max-width: ' + item.width"
                             class="py-3"
                         >
                             <select v-if="item.search_type === 'select'"
+                                    v-model="item.search_text"
                                     class="form-select form-select-sm form-select-solid w-50"
-                                    :placeholder="item.label"
+                                    :placeholder="item.label" @change="searchChange"
                             >
                                 <option value="" selected>All</option>
                                 <option v-for="option in item.select_options" :key="option" :value="option.value">
@@ -46,9 +47,24 @@
                             </select>
                             <input v-else-if="item.search_type==='date'"
                                    class="form-control form-control-sm form-control-solid w-100" type="date"
-                                   :placeholder="item.label">
+                                   :placeholder="item.label"
+                                   v-model="item.search_text"
+                                   @input="searchChange"
+                            >
+                            <!--                            <div v-else-if="item.search_type==='date'">-->
+                            <!--                                <el-date-picker-->
+                            <!--                                        type="date"-->
+                            <!--                                        name="eventStartDate"-->
+                            <!--                                        class="w-100"-->
+                            <!--                                        @change="searchChange"-->
+                            <!--                                        v-model="item.search_text"-->
+                            <!--                                />-->
+                            <!--                            </div>-->
                             <input v-else class="form-control form-control-sm form-control-solid" type="text"
-                                   :placeholder="item.label">
+                                   :placeholder="item.label"
+                                   @input="searchChange"
+                                   v-model="item.search_text"
+                            >
                         </th>
                     </tr>
                     </thead>
@@ -63,7 +79,7 @@
                                            class="form-check-input" type="checkbox">
                                 </div>
                             </th>
-                            <th v-for="tr in headers" :class="'text-' + tr.align">
+                            <td v-for="tr in headers" :class="'text-' + tr.align">
                                 <span v-if="d[tr.value]" class="text-dark">
                                     <slot :name="tr.value" :row="d" :key="tr.value">
                                         {{ d[tr.value] }}
@@ -74,9 +90,27 @@
                                         --
                                     </slot>
                                 </span>
-                            </th>
+                            </td>
                         </tr>
                     </template>
+                    <tr>
+                        <th colspan="2">
+                            <select v-if="per_page_option" class="form-select form-select-sm w-50"
+                                    style="max-width: 75px">
+                                <option v-for="option in per_page_option" :key="option.value">{{
+                                    option.label
+                                    }}
+                                </option>
+                            </select>
+                            <select v-else class="form-select form-select-sm w-50" style="max-width: 75px">
+                                <option v-for="option in default_per_page_options" :key="option.value">{{
+                                    option.label
+                                    }}
+                                </option>
+                            </select>
+                        </th>
+                        <td :colspan="headers.length - 1"></td>
+                    </tr>
                     </tbody>
 
                     <!-- Loading and no error occered -->
@@ -153,6 +187,11 @@ export interface Thead {
     select_options?: { value: string; label: string }[];
 }
 
+export interface PerPageOption {
+    label: string,
+    value: string,
+}
+
 export default defineComponent({
     emits: ['onSelect'],
     name: "STable",
@@ -170,13 +209,44 @@ export default defineComponent({
             type: String,
             required: true,
         },
+        per_page_option: {
+            type: Array as () => PerPageOption[],
+            required: false,
+        },
+        per_page: {
+            type: Number,
+            required: false,
+            default: () => 10
+        },
         getUpdate: {
             type: Boolean,
             required: false
-        }
+        },
     },
     components: {skeleton},
     data() {
+        let default_per_page_options: PerPageOption[] = [
+            {
+                value: '10',
+                label: '10'
+            },
+            {
+                value: '25',
+                label: '25'
+            },
+            {
+                value: '50',
+                label: '50'
+            },
+            {
+                value: '100',
+                label: '100'
+            },
+            {
+                value: '',
+                label: 'All'
+            },
+        ]
         return {
             data: [],
             selected: [] as any,
@@ -185,7 +255,16 @@ export default defineComponent({
                 status: false,
                 title: 'Success',
                 message: 'No Error Occured'
-            }
+            },
+            default_per_page_options: default_per_page_options
+        }
+    },
+    computed: {
+        headers_computed() {
+            return this.headers.map((header: Thead) => ({
+                ...header,
+                search_text: '',
+            }))
         }
     },
     methods: {
@@ -193,7 +272,14 @@ export default defineComponent({
         async getData() {
             if (!this.api_url) return
             try {
-                let response = await ApiService.get(this.api_url)
+                let params = {}
+                let searched_fields = this.headers_computed.filter((header) => header.search_text !== '')
+                searched_fields.forEach((field) => {
+                    params[field.value] = field.search_text
+                })
+                let response = await ApiService.get(this.api_url, {
+                    params: params
+                })
                 this.data = response.data.results
             } catch (error) {
                 this.error.status = true
@@ -220,6 +306,12 @@ export default defineComponent({
         unselectAll() {
             this.selected = []
             this.$emit('onSelect', this.selected)
+        },
+
+        async searchChange() {
+            setTimeout(() => {
+                this.getData()
+            }, 500)
         }
     },
     mounted() {

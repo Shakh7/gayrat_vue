@@ -11,11 +11,10 @@
             class="modal fade"
             id="share_quotes_model"
             tabindex="-1"
-            aria-hidden="true"
+            role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false"
     >
-        <div class="modal-dialog mw-800px">
+        <div class="modal-dialog mw-1000px modal-static">
             <div v-if="!submit_started" class="modal-content">
-
                 <div class="modal-header">
                     <h1 class="modal-title">Share Quotes</h1>
                     <div
@@ -29,7 +28,8 @@
                         </span>
                     </div>
                 </div>
-                <div class="modal-body py-5">
+
+                <div class="modal-body py-5 mx-15">
                     <div class="row justify-content-between">
                         <div class="col-4 text-start">
                             <h5 class="my-0" :class="{
@@ -52,7 +52,7 @@
                 <div class="separator"></div>
 
                 <!-- VIEW QUOTES -->
-                <div class="modal-body pb-10 pb-15"
+                <div class="modal-body mx-15 pb-10 pb-15"
                      :class="[state !== 'quotes' && 'd-none']"
                 >
                     <div class="table-responsive mb-15">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <div :class="[state !== 'clients' && 'd-none']" class="modal-body">
+                <div :class="[state !== 'clients' && 'd-none']" class="mx-15 modal-body">
                     <div class="d-flex flex-column flex-lg-row
                      justify-content-lg-between
                      align-items-center"
@@ -148,7 +148,7 @@
                     </div>
                 </div>
 
-                <div :class="[state !== 'sharing' && 'd-none']" class="modal-body pt-10 py-15">
+                <div :class="[state !== 'sharing' && 'd-none']" class="mx-15 modal-body pt-10 py-15">
 
                     <div class="w-75 mx-auto mb-0">
                         <div class="alert alert-primary d-flex align-items-center p-5">
@@ -156,9 +156,13 @@
                               <inline-svg src="media/icons/duotune/general/gen044.svg"/>
                             </span>
                             <div class="d-flex flex-column">
-                                <h4 class="mb-1 text-dark">Quick Alert</h4>
+                                <h4 class="mb-1 text-dark">Please Note!</h4>
                                 <span class="text-muted">
-                                    This action cannot be reverted !
+                                    This action <span class="fw-bold text-gray-600">
+                                    cannot be reverted</span> and all the quotes which was
+                                    <br><span class="fw-bold text-gray-600">previously shared</span>
+                                    with selected clients
+                                    <span class="fw-bold text-gray-600">will be skipped</span>
                                 </span>
                             </div>
                         </div>
@@ -246,7 +250,21 @@
                     </div>
                 </div>
             </div>
+
             <div v-else-if="submit_started" class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Share Quotes</h1>
+                    <div
+                            class="btn btn-sm btn-icon btn-active-color-primary"
+                            data-bs-dismiss="modal"
+                    >
+                        <span class="svg-icon svg-icon-1">
+                          <inline-svg
+                                  :src="getAssetPath('media/icons/duotune/arrows/arr061.svg')"
+                          />
+                        </span>
+                    </div>
+                </div>
                 <div class="modal-body py-5">
                     <div v-if="!submit_is_success" class="text-center py-15">
                         <span class="svg-icon svg-icon-4x">
@@ -263,7 +281,7 @@
                         <h5 class="my-10">
                             We have shared the quotes successfully
                         </h5>
-                        <button class="btn btn-success">
+                        <button @click="closeModal()" class="btn btn-success">
                             Ok
                         </button>
                     </div>
@@ -347,23 +365,31 @@ export default defineComponent({
                     leads.push({
                         quote_id: quote.id,
                         client_id: client.id,
-                        price: quote.price
+                        price: quote.price,
                     })
                 })
             })
             try {
                 await createLeads(leads)
-                this.submit_is_success = true
+                setTimeout(() => {
+                    this.submit_is_success = true
+                }, 500)
             } catch {
                 this.submit_is_success = false
             }
-            this.$emit('created')
+            setTimeout(() => {
+                this.closeModal()
+            }, 3000)
         },
         calculateTotalPrice() {
             this.total_price = this.quotes_list
                 .map(i => i.price)
                 .reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
                 .toFixed(2)
+        },
+        closeModal() {
+            document.querySelector('#share_quotes_model div[data-bs-dismiss="modal"]').click()
+            this.$emit('created')
         }
     },
     watch: {

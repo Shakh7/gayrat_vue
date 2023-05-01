@@ -2,8 +2,8 @@
 
     <div class="mb-10">
         <STable name="Quotes" :headers="table_headers" :api_url="table_url"
-                @onSelect="onSelect"
-                :getUpdate="table_get_update">
+                @onSelect="onSelect" :per_page_option="per_page_options"
+                :getUpdate="table_get_update" :per_page="1">
             <template v-slot:topRight>
                 <ShareQuotesModal @created="table_get_update = !table_get_update"
                                   :quotes="slected_quotes"/>
@@ -162,7 +162,7 @@
 import {getAssetPath} from "@/core/helpers/assets";
 import {defineComponent} from "vue";
 import ShareQuotesModal from "@/views/quotes/modals/ShareQuotes.vue";
-import STable, {type Thead} from "@/components/table/STable.vue"
+import STable, {type Thead, type PerPageOption} from "@/components/table/STable.vue"
 
 export default defineComponent({
     name: "kt-c",
@@ -181,7 +181,8 @@ export default defineComponent({
                 label: "Created Date",
                 value: "created_at",
                 align: "center",
-                width: "250px"
+                width: "250px",
+                search_type: 'date'
             },
             {
                 label: "Customer",
@@ -192,6 +193,7 @@ export default defineComponent({
                 label: "Pick up Date",
                 value: "pick_up_date",
                 align: "center",
+                search_type: 'date'
             },
             {
                 label: "Car",
@@ -215,13 +217,24 @@ export default defineComponent({
                 label: "Times Shared",
                 value: "quote_clients",
                 align: "center",
-                width: "125px"
+                width: "125px",
             },
             {
                 label: 'Is Operable',
                 value: 'is_operable',
                 align: "center",
-                width: "125px"
+                width: "125px",
+                search_type: 'select',
+                select_options: [
+                    {
+                        value: 'no',
+                        label: 'No'
+                    },
+                    {
+                        value: 'yes',
+                        label: 'Yes'
+                    }
+                ]
             },
             {
                 label: 'Notes',
@@ -232,12 +245,32 @@ export default defineComponent({
         ];
         let table_url = 'quotes'
         let table_get_update = true
+        let per_page_options: PerPageOption[] = [
+            {
+                value: '1',
+                label: '1'
+            },
+            {
+                value: '2',
+                label: '2'
+            },
+            {
+                value: '3',
+                label: '3'
+            },
+            {
+                value: '4',
+                label: '4'
+            }
+        ]
+
 
         return {
             getAssetPath,
             table_headers: table_headers,
             table_url: table_url,
             table_get_update: table_get_update,
+            per_page_options: per_page_options,
             slected_quotes: []
         };
     },
