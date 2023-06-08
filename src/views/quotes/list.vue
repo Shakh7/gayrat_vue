@@ -44,13 +44,13 @@
                     'badge-danger' : !props.row.is_operable
                 }">{{ props.row.is_operable ? 'Yes' : 'No' }}</span>
       </template>
-      <template v-slot:customer="props">
+      <template v-slot:shipper="{row: quote}">
         <div class="d-flex justify-content-start flex-column text-start">
           <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">
-            {{ props.row.customer.full_name }}
+            {{ quote.shipper.first_name }}
           </a>
           <small class="text-muted fw-semobold text-muted d-block">
-            {{ props.row.customer.email }}
+            {{ quote.shipper.email }}
           </small>
         </div>
       </template>
