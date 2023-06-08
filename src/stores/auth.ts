@@ -11,6 +11,7 @@ export interface User {
     id: number;
     full_name: string;
     user_type: string;
+    username: string;
     email: string;
     access_token: string;
     refresh_token: string,
@@ -43,7 +44,7 @@ export const useAuthStore = defineStore("auth", () => {
 
     function login(credentials: User) {
         return ApiService.post('token/', {
-            email: credentials.email,
+            username: credentials.username,
             password: credentials.password
         }).then((response) => {
             errors.value = []
@@ -88,6 +89,7 @@ export const useAuthStore = defineStore("auth", () => {
                         id: data.user.id,
                         full_name: data.user.full_name,
                         user_type: data.user.user_type,
+                        username: data.user.username,
                         email: data.user.email,
                         access_token: data.access,
                         session_expire_date: data.exp
