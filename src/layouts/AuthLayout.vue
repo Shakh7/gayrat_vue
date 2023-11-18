@@ -63,7 +63,7 @@ export default defineComponent({
 
 <style>
 .background-img {
-    background: url("	https://shipperauto.com/media/landing-page/hero-bg.jpg");
+    background: url("@/assets/login-page-bg.webp");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
