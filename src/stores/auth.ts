@@ -40,9 +40,10 @@ export const useAuthStore = defineStore("auth", () => {
         user.value = {} as User;
         errors.value = [];
         JwtService.destroyToken();
+        localStorage.removeItem('refresh_token')
     }
 
-    function login(credentials: User) {
+    function login(credentials: User, trust_this_device: boolean) {
         return ApiService.post('token/', {
             email: credentials.email,
             password: credentials.password
@@ -51,6 +52,13 @@ export const useAuthStore = defineStore("auth", () => {
             isAuthenticated.value = true
             user.value.refresh_token = response.data.refresh
             JwtService.saveToken(response.data.access)
+            if (trust_this_device) {
+                // let cookie = new CookieComponent()
+                // cookie.setCookie('refresh_token', response.data.refresh, 30)
+                localStorage.setItem('refresh_token', response.data.refresh)
+            } else {
+                localStorage.removeItem('refresh_token')
+            }
         }).catch((error) => {
             setError(Object.values(error.response.data)[0])
         })
@@ -80,7 +88,22 @@ export const useAuthStore = defineStore("auth", () => {
             });
     }
 
-    function verifyAuth() {
+    function refreshToken() {
+        return ApiService.post("token/refresh/", {
+            refresh: localStorage.getItem('refresh_token')
+        })
+            .then((response) => {
+                JwtService.destroyToken()
+                JwtService.saveToken(response.data.access)
+                verifyAuth(true);
+            })
+            .catch(({response}) => {
+                purgeAuth();
+                router.push({name: 'sign-in'})
+            });
+    }
+
+    function verifyAuth(triedToRefresh = false) {
         if (JwtService.getToken()) {
             ApiService.setHeader();
             ApiService.post("token/verify/", {token: JwtService.getToken()})
@@ -97,8 +120,8 @@ export const useAuthStore = defineStore("auth", () => {
                     setAuth(user_info);
                 })
                 .catch(() => {
-                    purgeAuth();
-                    router.push({name: 'sign-in'})
+                    if (triedToRefresh) return;
+                    return refreshToken();
                 });
         } else {
             purgeAuth();

@@ -1,72 +1,72 @@
 <template>
-    <div id="kt_header" class="header align-items-stretch">
-        <div class="header-brand">
-            <!--begin::Logo-->
-            <router-link to="/">
-                <h2 class="my-0">ShipperAuto</h2>
-            </router-link>
-            <!--end::Logo-->
+  <div id="kt_header" class="header align-items-stretch">
+    <div class="header-brand header-brand-bg-color">
+      <!--begin::Logo-->
+      <router-link to="/">
+        <h2 class="my-0 text-light">ShipperAuto</h2>
+      </router-link>
+      <!--end::Logo-->
 
-            <!--begin::Aside minimize-->
-            <div
-                    v-if="asideDisplay"
-                    id="kt_aside_toggle"
-                    class="btn btn-icon w-auto px-0 btn-active-color-primary aside-minimize"
-                    :class="{ active: asideMinimized }"
-                    data-kt-toggle="true"
-                    data-kt-toggle-state="active"
-                    data-kt-toggle-target="body"
-                    data-kt-toggle-name="aside-minimize"
-            >
+      <!--begin::Aside minimize-->
+      <div
+          v-if="asideDisplay"
+          id="kt_aside_toggle"
+          class="btn btn-icon w-auto px-0 btn-active-color-primary aside-minimize"
+          :class="{ active: asideMinimized }"
+          data-kt-toggle="true"
+          data-kt-toggle-state="active"
+          data-kt-toggle-target="body"
+          data-kt-toggle-name="aside-minimize"
+      >
         <span class="svg-icon svg-icon-1 me-n1 minimize-default">
           <inline-svg
-                  :src="getAssetPath('media/icons/duotune/arrows/arr092.svg')"
+              :src="getAssetPath('media/icons/duotune/arrows/arr092.svg')"
           />
         </span>
 
-                <span class="svg-icon svg-icon-1 minimize-active">
+        <span class="svg-icon svg-icon-1 minimize-active">
           <inline-svg
-                  :src="getAssetPath('media/icons/duotune/arrows/arr076.svg')"
+              :src="getAssetPath('media/icons/duotune/arrows/arr076.svg')"
           />
         </span>
-            </div>
-            <!--end::Aside minimize-->
+      </div>
+      <!--end::Aside minimize-->
 
-            <!--begin::Aside toggle-->
-            <div
-                    class="d-flex align-items-center d-lg-none ms-n3 me-1"
-                    title="Show aside menu"
-            >
-                <div
-                        class="btn btn-icon btn-active-color-primary w-30px h-30px"
-                        id="kt_aside_mobile_toggle"
-                >
+      <!--begin::Aside toggle-->
+      <div
+          class="d-flex align-items-center d-lg-none ms-n3 me-1"
+          title="Show aside menu"
+      >
+        <div
+            class="btn btn-icon btn-active-color-primary w-30px h-30px"
+            id="kt_aside_mobile_toggle"
+        >
           <span class="svg-icon svg-icon-1">
             <inline-svg
-                    :src="getAssetPath('media/icons/duotune/abstract/abs015.svg')"
+                :src="getAssetPath('media/icons/duotune/abstract/abs015.svg')"
             />
           </span>
-                </div>
-            </div>
-            <!--end::Aside toggle-->
         </div>
+      </div>
+      <!--end::Aside toggle-->
+    </div>
 
-        <div
-                class="toolbar d-flex align-items-stretch ps-0"
-                :class="{
+    <div
+        class="toolbar d-flex align-items-stretch ps-0"
+        :class="{
     'container-fluid': headerWidthFluid,
     'container-xxl': !headerWidthFluid,
   }"
-        >
-            <div
-                    class="container-fluid py-6 py-lg-0 d-flex flex-column flex-lg-row align-items-lg-stretch justify-content-lg-between"
-                    id="kt_toolbar_container"
-            >
-                <PageTitle></PageTitle>
-                <KTTopbar/>
-            </div>
-        </div>
+    >
+      <div
+          class="container-fluid py-6 py-lg-0 d-flex flex-column flex-lg-row align-items-lg-stretch justify-content-lg-between"
+          id="kt_toolbar_container"
+      >
+        <PageTitle></PageTitle>
+        <KTTopbar/>
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -76,35 +76,41 @@ import KTTopbar from "@/layouts/main-layout/header/Topbar.vue";
 import PageTitle from "@/layouts/main-layout/page-title/PageTitle.vue";
 
 import {
-    headerWidthFluid,
-    headerLeft,
-    asideDisplay,
-    asideMinimized,
+  headerWidthFluid,
+  headerLeft,
+  asideDisplay,
+  asideMinimized,
 } from "@/core/helpers/config";
 
 export default defineComponent({
-    name: "KTHeader",
-    components: {
-        KTTopbar,
-        PageTitle,
-    },
-    setup() {
-        return {
-            headerWidthFluid,
-            headerLeft,
-            asideDisplay,
-            asideMinimized,
-            getAssetPath,
-        };
-    },
+  name: "KTHeader",
+  components: {
+    KTTopbar,
+    PageTitle,
+  },
+  setup() {
+    return {
+      headerWidthFluid,
+      headerLeft,
+      asideDisplay,
+      asideMinimized,
+      getAssetPath,
+    };
+  },
 });
 </script>
 
 <style>
 .session-timeout-progess-bar {
-    background: blue;
-    position: absolute;
-    bottom: 0;
-    left: 0
+  background: blue;
+  position: absolute;
+  bottom: 0;
+  left: 0
+}
+
+@media (min-width: 992px) {
+  .header-brand-bg-color {
+    background-color: #1E1E2D;
+  }
 }
 </style>

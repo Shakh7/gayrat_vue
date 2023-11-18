@@ -4,7 +4,7 @@
     <!--begin::Body-->
     <div class="card-body">
       <span :class="`svg-icon-${iconColor}`" class="svg-icon svg-icon-3x mx-n1">
-        <inline-svg :src="svgIcon" />
+        <inline-svg :src="svgIcon"/>
       </span>
 
       <div :class="`text-inverse-${color}`" class="fw-bold fs-2 mb-2 mt-5">
@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent } from "vue";
+import {getAssetPath} from "@/core/helpers/assets";
+import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "kt-widget-5",

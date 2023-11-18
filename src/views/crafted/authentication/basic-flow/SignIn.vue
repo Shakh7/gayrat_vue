@@ -19,7 +19,7 @@
           <!--begin::Heading-->
 
           <!--begin::Input group-->
-          <div class="fv-row mb-10">
+          <div class="fv-row mb-8">
             <!--begin::Label-->
             <label class="form-label fs-6 fw-bold text-dark">Email</label>
             <!--end::Label-->
@@ -43,7 +43,7 @@
           <!--end::Input group-->
 
           <!--begin::Input group-->
-          <div class="fv-row mb-10">
+          <div class="fv-row mb-8">
             <!--begin::Wrapper-->
             <div class="d-flex flex-stack mb-2">
               <!--begin::Label-->
@@ -69,6 +69,14 @@
             </div>
           </div>
           <!--end::Input group-->
+
+          <div class="form-check mb-8">
+            <input v-model="trust_this_device"
+                   class="form-check-input" type="checkbox" value="" id="trust_this_device"/>
+            <label class="form-check-label fs-5" for="trust_this_device">
+              Trust this device for the next 7 days
+            </label>
+          </div>
 
           <!--begin::Alert-->
           <div v-if="login_errors.length > 0"
@@ -140,6 +148,7 @@ export default defineComponent({
 
     const submitButton = ref<HTMLButtonElement | null>(null);
     let login_errors = ref('');
+    let trust_this_device = ref(true);
 
 
     //Create form validation object
@@ -164,7 +173,7 @@ export default defineComponent({
         }
 
         // Send login request
-        await store.login(values);
+        await store.login(values, trust_this_device.value);
         const error = store.errors;
 
         if ((error).length === 0) {
@@ -187,7 +196,7 @@ export default defineComponent({
             router.push({name: "dashboard"});
           });
         } else {
-          login_errors.value = error;
+          login_errors.value = error[0];
           const Toast = Swal.mixin({
             toast: true,
             position: 'top',
@@ -227,7 +236,8 @@ export default defineComponent({
       submitButton,
       getAssetPath,
       store,
-      login_errors
+      login_errors,
+      trust_this_device
     };
   },
 });
