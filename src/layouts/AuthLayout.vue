@@ -8,7 +8,7 @@
             <!--begin::Form-->
             <div class="d-flex flex-center flex-column flex-lg-row-fluid">
                 <!--begin::Wrapper-->
-                <div class="p-7 w-100">
+                <div class="w-100">
                     <router-view></router-view>
                 </div>
                 <!--end::Wrapper-->
