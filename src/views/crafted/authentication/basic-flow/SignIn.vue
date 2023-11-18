@@ -74,7 +74,7 @@
             <input v-model="trust_this_device"
                    class="form-check-input" type="checkbox" value="" id="trust_this_device"/>
             <label class="form-check-label fs-5" for="trust_this_device">
-              Trust this device for the next 7 days
+              Trust this device for 7 days
             </label>
           </div>
 
