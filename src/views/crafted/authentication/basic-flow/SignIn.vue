@@ -21,7 +21,7 @@
           <!--begin::Input group-->
           <div class="fv-row mb-10">
             <!--begin::Label-->
-            <label class="form-label fs-6 fw-bold text-dark">Username</label>
+            <label class="form-label fs-6 fw-bold text-dark">Email</label>
             <!--end::Label-->
 
             <!--begin::Input-->
@@ -29,14 +29,14 @@
                 tabindex="1"
                 class="form-control form-control-lg form-control-solid"
                 type="text"
-                name="username"
+                name="email"
                 autocomplete="off"
-                placeholder="Username"
+                placeholder="Email"
             />
             <!--end::Input-->
             <div class="fv-plugins-message-container">
               <div class="fv-help-block">
-                <ErrorMessage name="username"/>
+                <ErrorMessage name="email"/>
               </div>
             </div>
           </div>
@@ -49,12 +49,6 @@
               <!--begin::Label-->
               <label class="form-label fw-bold text-dark fs-6 mb-0">Password</label>
               <!--end::Label-->
-
-              <!--begin::Link-->
-              <!--                            <router-link to="/password-reset" class="link-primary fs-6 fw-bold">-->
-              <!--                                Forgot Password ?-->
-              <!--                            </router-link>-->
-              <!--end::Link-->
             </div>
             <!--end::Wrapper-->
 
@@ -75,6 +69,23 @@
             </div>
           </div>
           <!--end::Input group-->
+
+          <!--begin::Alert-->
+          <div v-if="login_errors.length > 0"
+               class="alert alert-dismissible border border-danger border-dashed bg-light-danger p-5 mb-10">
+
+            <!--begin::Wrapper-->
+            <div class="pe-0 pe-sm-10 text-danger">
+              <!--begin::Content-->
+              <span>
+                {{ login_errors }}
+              </span>
+              <!--end::Content-->
+            </div>
+            <!--end::Wrapper-->
+
+          </div>
+          <!--end::Alert-->
 
           <!--begin::Actions-->
           <div class="text-center">
@@ -128,68 +139,80 @@ export default defineComponent({
     const router = useRouter();
 
     const submitButton = ref<HTMLButtonElement | null>(null);
+    let login_errors = ref('');
+
 
     //Create form validation object
     const login = Yup.object().shape({
-      username: Yup.string().min(4).required().label("Username"),
-      password: Yup.string().min(4).required().label("Password"),
+      email: Yup.string().email().min(8).required().label("Email"),
+      password: Yup.string().min(8).required().label("Password"),
     });
 
     //Form submit function
     const onSubmitLogin = async (values: any) => {
-      values = values as User;
-      // Clear existing errors
-      store.logout();
+      try {
+        login_errors.value = '';
+        values = values as User;
+        // Clear existing errors
+        store.logout();
 
-      if (submitButton.value) {
+        if (submitButton.value) {
+          // eslint-disable-next-line
+          submitButton.value!.disabled = true;
+          // Activate indicator
+          submitButton.value.setAttribute("data-kt-indicator", "on");
+        }
+
+        // Send login request
+        await store.login(values);
+        const error = store.errors;
+
+        if ((error).length === 0) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'You have successfully logged in!',
+          }).then(() => {
+            router.push({name: "dashboard"});
+          });
+        } else {
+          login_errors.value = error;
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: error[0] as string,
+          }).then(() => {
+            store.errors = [];
+          });
+        }
+      } catch {
+        login_errors.value = 'Something went wrong, please try again later.';
+        //Deactivate indicator
+        submitButton.value?.removeAttribute("data-kt-indicator");
         // eslint-disable-next-line
-        submitButton.value!.disabled = true;
-        // Activate indicator
-        submitButton.value.setAttribute("data-kt-indicator", "on");
-      }
-
-      // Send login request
-      await store.login(values);
-      const error = store.errors;
-
-      if ((error).length === 0) {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top',
-          showConfirmButton: false,
-          timer: 1000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
-
-        Toast.fire({
-          icon: 'success',
-          title: 'You have successfully logged in!',
-        }).then(() => {
-          router.push({name: "dashboard"});
-        });
-      } else {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top',
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
-
-        Toast.fire({
-          icon: 'error',
-          title: error[0] as string,
-        }).then(() => {
-          store.errors = [];
-        });
+        submitButton.value!.disabled = false;
       }
 
       //Deactivate indicator
@@ -203,7 +226,8 @@ export default defineComponent({
       login,
       submitButton,
       getAssetPath,
-      store
+      store,
+      login_errors
     };
   },
 });

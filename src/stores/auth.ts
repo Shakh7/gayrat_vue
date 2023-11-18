@@ -44,7 +44,7 @@ export const useAuthStore = defineStore("auth", () => {
 
     function login(credentials: User) {
         return ApiService.post('token/', {
-            username: credentials.username,
+            email: credentials.email,
             password: credentials.password
         }).then((response) => {
             errors.value = []
