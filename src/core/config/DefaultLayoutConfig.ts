@@ -21,7 +21,7 @@ const config: LayoutConfigTypes = {
     header: {
         display: true,
         menuIcon: "font",
-        width: "fluid",
+        width: "fixed",
         fixed: {
             desktop: true,
             tabletAndMobile: true,
