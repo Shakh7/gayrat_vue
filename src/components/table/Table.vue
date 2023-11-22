@@ -76,8 +76,8 @@
             >
               <td>
                 <slot :field="`${header.field}_body`"
-                      v-html="getCellValue(row, header, index)"
                       :row="row">
+                  <div v-html="getCellValue(row, header, index)" />
                 </slot>
               </td>
             </template>
