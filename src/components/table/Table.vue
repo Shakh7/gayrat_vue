@@ -74,9 +74,12 @@
                 v-for="(header, index) in computed_headers"
                 :key="`header_value_${index}_${header.field}`"
             >
-              <slot :field="header.field" :row="row" >
-                <td v-html="getCellValue(row, header, index)"/>
-              </slot>
+              <td>
+                <slot :field="`${header.field}_body`"
+                      v-html="getCellValue(row, header, index)"
+                      :row="row">
+                </slot>
+              </td>
             </template>
           </tr>
           </tbody>

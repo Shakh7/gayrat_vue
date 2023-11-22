@@ -1,5 +1,7 @@
 <template>
-  <Table v-bind="table"/>
+  <Table v-bind="table">
+
+  </Table>
 </template>
 
 <script lang="ts">
