@@ -75,9 +75,29 @@
                 :key="`header_value_${index}_${header.field}`"
             >
               <td>
-                <slot :field="`${header.field}_body`"
+                <slot :name="`${header.field}_body`"
                       :row="row">
-                  <div v-html="getCellValue(row, header, index)" />
+                  <template v-if="show_label_underneath_data">
+                    <span :class="[index === 0 ? 'ps-3' : '']">
+                      <slot :name="`${header.field}_value`"
+                            :row="row">
+                        <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
+                          ${row[header.field] || ""}
+                        </a>
+                      </slot>
+                    </span>
+                    <span :class="['text-muted fw-semibold text-muted d-block fs-7', index === 0 ? 'ps-3' : '']">
+                      {{ this.formatSnakeCaseToReadable(header.label) }}
+                    </span>
+                  </template>
+                  <template v-else>
+                     <span :class="[index === 0 ? 'ps-3' : '']">
+                       <slot :name="`${header.field}_value`"
+                             :row="row">
+                          {{ row[header.field] || "" }}
+                       </slot>
+                     </span>
+                  </template>
                 </slot>
               </td>
             </template>
@@ -209,7 +229,7 @@ export default defineComponent({
     getCellValue(row: Record<string, any>, header: Header, index: number) {
       if (this.show_label_underneath_data) {
         return `
-                <slot field="${header.field}_value"
+                <slot name="${header.field}_value"
                       row="${row}">
                 <a
                 class="text-gray-900 fw-bold text-hover-primary d-block ${index === 0 ? 'ps-3' : ''} mb-1 fs-6">
