@@ -51,7 +51,7 @@
                }"
         >
           <thead>
-          <tr class="fw-bold text-muted bg-light">
+          <tr class="fw-bold text-muted bg-light border-0">
 
             <template v-for="(header, index) in computed_headers" :key="`header_${index}_${header.field}`">
               <th class="py-1" :class="{
@@ -59,25 +59,24 @@
                 'rounded-end': index + 1 === computed_headers.length,
               }">
                 <input type="text" class="form-control border-0 bg-transparent"
-                       :placeholder="header.field"/>
+                       :placeholder="formatSnakeCaseToReadable(header.label)"/>
               </th>
             </template>
 
           </tr>
           </thead>
-          <tbody>
-          <template>
-
-          </template>
-          <tr v-for="(row, index) in data"
+          <tbody v-if="!is_fetching_data">
+          <tr v-for="(row, index) in computed_data"
               :key="`row_${index}`"
-              :class="row?._row?.classes || ''"
+              :class="row?._row?.classes || ':'"
           >
             <template
                 v-for="(header, index) in computed_headers"
                 :key="`header_value_${index}_${header.field}`"
             >
-              <td v-html="getCellValue(row, header, index)"/>
+              <slot :field="header.field" :row="row" >
+                <td v-html="getCellValue(row, header, index)"/>
+              </slot>
             </template>
           </tr>
           </tbody>
@@ -117,6 +116,7 @@
 </template>
 
 <script lang="ts">
+import axios from "axios";
 import {defineComponent, type PropType} from "vue";
 
 type Header = {
@@ -148,6 +148,11 @@ export default defineComponent({
       required: true,
       default: () => [],
     },
+    api_url: {
+      type: String,
+      required: false,
+      default: "",
+    },
     show_label_underneath_data: {
       type: Boolean,
       required: false,
@@ -164,15 +169,38 @@ export default defineComponent({
       default: false,
     },
   },
-  computed: {
-    computed_headers() {
-      return (this.headers && this.headers.length ? this.headers : Object.keys(this.data[0])).map((item) => {
-        return {label: item, field: item}
-      }) as Header[]
+  data() {
+    return {
+      api_data: [],
+      is_fetching_data: false,
     }
   },
-  data() {
+  computed: {
+    computed_data() {
+      if (this.api_url && this.api_url.length > 0) {
+        return this.api_data
+      } else {
+        return this.data as DataTableItem[]
+      }
+    },
+    computed_headers() {
+      if (this.is_fetching_data) return [];
 
+      if (this.headers && this.headers.length) {
+        return this.headers.map((item) => {
+          return {label: item, field: item}
+        }) as Header[]
+      } else {
+        let sampleData = this.api_url ? this.api_data : this.data;
+        if (sampleData.length > 0) {
+          return Object.keys(sampleData[0]).map((item) => {
+            return {label: item, field: item}
+          }) as Header[]
+        } else {
+          return []
+        }
+      }
+    },
   },
   methods: {
     getCellValue(row: Record<string, any>, header: Header, index: number) {
@@ -183,7 +211,7 @@ export default defineComponent({
                 ${row[header.field] || ""}
                 </a>
                 <span class="text-muted fw-semibold text-muted d-block ${index === 0 ? 'ps-3' : ''} fs-7">
-                ${header.label}
+                ${this.formatSnakeCaseToReadable(header.label)}
 </span>
         `
       } else {
@@ -193,7 +221,33 @@ export default defineComponent({
         `;
       }
     },
+    formatSnakeCaseToReadable(str: string) {
+      return str ? str
+          .split('_')
+          .map((word, index) => index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word)
+          .join(' ') : ''
+    },
+    async getDataFromApi(retry_after_fail = true) {
+      if (!this.api_url) return;
+      this.is_fetching_data = true;
+      try {
+        let response = await axios.get(this.api_url);
+        this.api_data = response.data.results || [];
+      } catch {
+        if (retry_after_fail) {
+          setTimeout(() => {
+            this.getDataFromApi(false);
+          }, 2000)
+        } else {
+          this.api_data = [];
+        }
+      }
+      this.is_fetching_data = false;
+    }
   },
+  mounted() {
+    this.getDataFromApi();
+  }
 })
 
 </script>
