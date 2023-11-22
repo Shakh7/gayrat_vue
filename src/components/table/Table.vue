@@ -209,18 +209,24 @@ export default defineComponent({
     getCellValue(row: Record<string, any>, header: Header, index: number) {
       if (this.show_label_underneath_data) {
         return `
+                <slot field="${header.field}_value"
+                      row="${row}">
                 <a
                 class="text-gray-900 fw-bold text-hover-primary d-block ${index === 0 ? 'ps-3' : ''} mb-1 fs-6">
                 ${row[header.field] || ""}
                 </a>
+</slot>
                 <span class="text-muted fw-semibold text-muted d-block ${index === 0 ? 'ps-3' : ''} fs-7">
                 ${this.formatSnakeCaseToReadable(header.label)}
 </span>
         `
       } else {
-        return `<span class="${index === 0 ? 'ps-3' : ''}">
+        return `
+<slot field="${header.field}_value"
+                      row="${row}">
+<span class="${index === 0 ? 'ps-3' : ''}">
                 ${row[header.field] || ""}
-                </span>
+                </span> </slot>
         `;
       }
     },
