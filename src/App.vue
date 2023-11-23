@@ -1,15 +1,15 @@
 <template>
-  <RouterView />
+  <RouterView/>
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, onBeforeMount, onMounted } from "vue";
-import { RouterView } from "vue-router";
-import { useConfigStore } from "@/stores/config";
-import { useThemeStore } from "@/stores/theme";
-import { useBodyStore } from "@/stores/body";
-import { themeMode } from "@/core/helpers/config";
-import { initializeComponents } from "@/core/plugins/keenthemes";
+import {defineComponent, nextTick, onBeforeMount, onMounted} from "vue";
+import {RouterView} from "vue-router";
+import {useConfigStore} from "@/stores/config";
+import {useThemeStore} from "@/stores/theme";
+import {useBodyStore} from "@/stores/body";
+import {themeMode} from "@/core/helpers/config";
+import {initializeComponents} from "@/core/plugins/keenthemes";
 
 export default defineComponent({
   name: "app",
@@ -67,5 +67,11 @@ export default defineComponent({
 
 #app {
   display: contents;
+}
+
+.text-overflow {
+  white-space: nowrap; /* Prevents the text from wrapping */
+  overflow: hidden; /* Hides any content that overflows the box */
+  text-overflow: ellipsis; /* Displays an ellipsis ('...') */
 }
 </style>

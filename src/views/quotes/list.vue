@@ -1,7 +1,7 @@
 <template>
   <Table v-bind="table">
     <template v-slot:departure_value="{row: data}">
-      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6 ps-3">
+      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
         {{ getData(data).departure.summary }}
       </a>
     </template>
@@ -26,9 +26,43 @@
       </a>
     </template>
     <template v-slot:shipper_value="{row: data}">
-      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
+      <a class="text-overflow text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
         {{ getData(data).shipper.email }}
       </a>
+    </template>
+    <template v-slot:shipper_label>
+      <span class="text-muted fw-semibold text-muted d-flex gap-1 fs-7">
+        Shipper
+        <VMenu>
+          <i class="bi bi-eye"></i>
+
+          <template #popper>
+            <div class="card shadow-0 p-0">
+                <div class="card-body d-flex align-items p-3">
+                   <!--begin::Avatar-->
+                <div class="symbol symbol-50px me-5">
+                    <img alt="Logo" :src="getAssetPath('media/avatars/300-1.jpg')"/>
+                </div>
+                  <!--end::Avatar-->
+
+                  <!--begin::Username-->
+                <div class="d-flex flex-column">
+                    <div class="fw-bold d-flex align-items-center fs-5">
+                        Max Smith
+                        <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2"
+                        >Pro</span
+                        >
+                    </div>
+                    <a href="#" class="fw-semobold text-muted text-hover-primary fs-7"
+                    >max@kt.com</a
+                    >
+                </div>
+                  <!--end::Username-->
+                </div>
+            </div>
+          </template>
+        </VMenu>
+      </span>
     </template>
     <template v-slot:created_at_value="{row: data}">
       <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
@@ -41,8 +75,10 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import Table from "@/components/table/Table.vue";
+import type {Header} from "@/components/table/types";
 import type {Quote} from "@/types";
 import moment from "moment";
+import {getAssetPath} from "@/core/helpers/assets";
 
 
 export default defineComponent({
@@ -50,12 +86,70 @@ export default defineComponent({
   components: {Table},
   data() {
     return {
+      getAssetPath,
       table: {
         title: "Quotes",
         api_url: "quotes/list/",
         show_label_underneath_data: true,
         table_striped: false,
         table_hover: true,
+        headers: [
+          {
+            label: "Created At",
+            field: "created_at",
+            style: {
+              minWidth: '180px',
+              maxWidth: '220px',
+            }
+          },
+          {
+            label: "Shipper",
+            field: "shipper",
+            style: {
+              maxWidth: '220px',
+            }
+          },
+          {
+            label: "Pick Up",
+            field: "pick_up",
+            style: {
+              minWidth: '160px',
+              maxWidth: '200px',
+            }
+          },
+          {
+            label: "Vehicle",
+            field: "vehicle",
+            style: {
+              minWidth: '200px',
+              maxWidth: '270px',
+            }
+          },
+          {
+            label: "Departure",
+            field: "departure",
+            style: {
+              minWidth: '230px',
+              maxWidth: '270px',
+            }
+          },
+          {
+            label: "Destination",
+            field: "destination",
+            style: {
+              minWidth: '230px',
+              maxWidth: '270px',
+            }
+          },
+          {
+            label: "Transport Type",
+            field: "transport_type",
+            style: {
+              minWidth: '160px',
+              maxWidth: '200px',
+            }
+          },
+        ] as Header[]
       }
     }
   },
