@@ -155,7 +155,7 @@
               >
                 <td :style="{ width: header?.style?.width || 'auto', maxWidth: header?.style?.maxWidth || 'auto', minWidth: header?.style?.minWidth || 'auto' }"
                 >
-                  <div :class="[index === 0 ? 'ps-3' : '']" >
+                  <div :class="[index === 0 ? 'ps-3' : '']">
                     <slot :name="`${header.field}_body`"
                           :row="row">
                       <template v-if="show_label_underneath_data">
@@ -228,39 +228,40 @@
 
         </table>
 
-        <div class="d-flex justify-content-between align-items-center py-3">
-          <div>
-            <select v-model="per_page" class="form-select" aria-label="Select example">
-              <option v-for="i in per_page_options" :key="`per_page_${i}`" :value="i">
-                {{ i }}
-              </option>
-            </select>
-          </div>
-          <ul class="pagination">
-            <li class="page-item previous"
-                @click="goPrevPage()"
-                :class="{'disabled': active_page <= 1}"
-                :style="{ cursor: active_page <= 1 ? 'not-allowed': 'auto' }"
-            >
-              <a class="page-link"><i class="previous"></i></a>
-            </li>
-            <li class="page-item cursor-pointer"
-                v-for="page in pagination_items"
-                :key="`pagination_page_${page}`"
-                :class="{'active': page === active_page }"
-                @click="goPage(page)"
-            >
-              <a class="page-link">{{ page }}</a>
-            </li>
-            <li class="page-item next"
-                @click="goNextPage()"
-                :class="{'disabled': active_page >=  pagination_items}"
-                :style="{ cursor: active_page >=  pagination_items ? 'not-allowed': 'auto' }"
-            >
-              <a class="page-link"><i class="next"></i></a>
-            </li>
-          </ul>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center py-3">
+        <div>
+          <select v-model="per_page" class="form-select" aria-label="Select example">
+            <option v-for="i in per_page_options" :key="`per_page_${i}`" :value="i">
+              {{ i }}
+            </option>
+          </select>
         </div>
+        <ul class="pagination">
+          <li class="page-item previous"
+              @click="goPrevPage()"
+              :class="{'disabled': active_page <= 1}"
+              :style="{ cursor: active_page <= 1 ? 'not-allowed': 'auto' }"
+          >
+            <a class="page-link"><i class="previous"></i></a>
+          </li>
+          <li class="page-item cursor-pointer"
+              v-for="page in pagination_items"
+              :key="`pagination_page_${page}`"
+              :class="{'active': page === active_page }"
+              @click="goPage(page)"
+          >
+            <a class="page-link">{{ page }}</a>
+          </li>
+          <li class="page-item next"
+              @click="goNextPage()"
+              :class="{'disabled': active_page >=  pagination_items}"
+              :style="{ cursor: active_page >=  pagination_items ? 'not-allowed': 'auto' }"
+          >
+            <a class="page-link"><i class="next"></i></a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
