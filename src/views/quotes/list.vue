@@ -162,6 +162,11 @@ export default defineComponent({
           {
             label: "Transport Type",
             field: "transport_type",
+            search_type: 'select',
+            options: [
+              {label: 'Open', value: "open"},
+              {label: 'Enclosed', value: "enclosed"},
+            ],
             style: {
               minWidth: '160px',
               maxWidth: '200px',
