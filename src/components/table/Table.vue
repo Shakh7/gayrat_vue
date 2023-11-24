@@ -269,6 +269,7 @@
 import axios from "axios";
 import {defineComponent, type PropType} from "vue";
 import type {Header} from "@/components/table/types";
+import ApiService from "@/core/services/ApiService";
 
 type DataTableItem = Record<string, any> & {
   _table?: {
@@ -370,7 +371,7 @@ export default defineComponent({
       if (!this.api_url) return;
       this.is_fetching_data = true;
       try {
-        let response = await axios.get(
+        let response = await ApiService.get(
             this.api_url,
             {
               params: {
@@ -382,6 +383,7 @@ export default defineComponent({
         );
         this.api_data = response.data.results || [];
         this.data_count = response.data.count || 0;
+        this.is_fetching_data = false;
       } catch {
         if (retry_after_fail) {
           setTimeout(() => {
@@ -389,9 +391,9 @@ export default defineComponent({
           }, 2000)
         } else {
           this.api_data = [];
+          this.is_fetching_data = false;
         }
       }
-      this.is_fetching_data = false;
     },
     translate(str: string) {
       return str
