@@ -184,8 +184,8 @@ export default defineComponent({
               {label: 'No', value: "false"},
             ],
             style: {
-              minWidth: '60px',
-              maxWidth: '120px',
+              minWidth: '120px',
+              maxWidth: '160px',
             }
           },
         ] as Header[]
