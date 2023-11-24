@@ -200,7 +200,7 @@
                 <div class="text-center">
                   <!--begin::Title-->
                   <h1 class="fw-bold mb-5">
-                    {{ translate('no_data_found') }}
+                    {{ translate('No data found') }}
                   </h1>
                   <!--end::Title-->
 
