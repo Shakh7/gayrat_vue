@@ -99,43 +99,45 @@
                   }"
                   :style="{ width: header?.style?.width || 'auto', maxWidth: header?.style?.maxWidth || 'auto', minWidth: header?.style?.minWidth || 'auto' }"
               >
-                <select
-                    v-model="header.query"
-                    v-if="header.search_type === 'select'"
-                    class="form-select form-select-sm"
-                    aria-label="Select example"
-                    @change="searchChange(header)"
-                    :disabled="header.searchable === false"
-                    :class="{
+                <slot :name="`${header.field}_search`">
+                  <select
+                      v-model="header.query"
+                      v-if="header.search_type === 'select'"
+                      class="form-select form-select-sm"
+                      aria-label="Select example"
+                      @change="searchChange(header)"
+                      :disabled="header.searchable === false"
+                      :class="{
                       'bg-light border-0': header.searchable === false,
                     }"
-                    :style="{cursor: header.searchable === false ? 'not-allowed': 'auto'}"
-                >
-                  <option value="">All</option>
-                  <option v-for="(item, index) in header.options" :key="`option_${index}_${item.value}`"
-                          :value="item.value">
-                    {{ translate(item.label) }}
-                  </option>
-                </select>
-                <input v-else-if="header.search_type === 'date'" type="date"
-                       class="form-control form-control-sm ps-3 bg-light border-top-0 border-start-0 border-end-0 border-bottom-1 rounded-0"
-                       :readonly="header.searchable === false"
-                       :style="{cursor: header.searchable === false ? 'not-allowed': 'auto'}"
-                       :class="{
+                      :style="{cursor: header.searchable === false ? 'not-allowed': 'auto'}"
+                  >
+                    <option value="">All</option>
+                    <option v-for="(item, index) in header.options" :key="`option_${index}_${item.value}`"
+                            :value="item.value">
+                      {{ translate(item.label) }}
+                    </option>
+                  </select>
+                  <input v-else-if="header.search_type === 'date'" type="date"
+                         class="form-control form-control-sm ps-3 bg-light border-top-0 border-start-0 border-end-0 border-bottom-1 rounded-0"
+                         :readonly="header.searchable === false"
+                         :style="{cursor: header.searchable === false ? 'not-allowed': 'auto'}"
+                         :class="{
                       'bg-light border-0': header.searchable === false,
                     }"
-                />
-                <input v-else type="text"
-                       v-model="header.query"
-                       class="form-control form-control-sm ps-3"
-                       :placeholder="`Search ${translate(header.label)}`"
-                       @input="searchChange(header)"
-                       :readonly="header.searchable === false"
-                       :class="{
+                  />
+                  <input v-else type="text"
+                         v-model="header.query"
+                         class="form-control form-control-sm ps-3"
+                         :placeholder="`Search ${translate(header.label)}`"
+                         @input="searchChange(header)"
+                         :readonly="header.searchable === false"
+                         :class="{
                       'bg-light border-0': header.searchable === false,
                     }"
-                       :style="{cursor: header.searchable === false ? 'not-allowed': 'auto'}"
-                />
+                         :style="{cursor: header.searchable === false ? 'not-allowed': 'auto'}"
+                  />
+                </slot>
               </th>
             </template>
           </tr>

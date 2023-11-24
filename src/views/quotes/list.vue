@@ -1,4 +1,5 @@
 <template>
+  <SelectPickUpDate/>
   <Table v-bind="table">
     <template v-slot:created_at_value="{row: data}">
       <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
@@ -44,11 +45,22 @@
         </VMenu>
       </span>
     </template>
+
     <template v-slot:pick_up_value="{row: data}">
       <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
         {{ getData(data).pick_up.summary }}
       </a>
     </template>
+    <template v-slot:pick_up_search>
+      <input type="text"
+             class="form-control form-control-sm cursor-pointer ps-3"
+             placeholder="Search Pick Up"
+             readonly
+             data-bs-target="#modal_select_pick_up_date"
+             data-bs-toggle="modal"
+      />
+    </template>
+
     <template v-slot:vehicle_value="{row: data}">
       <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
         {{ getData(data).vehicle.summary }}
@@ -97,11 +109,14 @@ import type {Header} from "@/components/table/types";
 import type {Quote} from "@/types";
 import moment from "moment";
 import {getAssetPath} from "@/core/helpers/assets";
+import SelectPickUpDate from "@/views/quotes/modals/SelectPickUpDate.vue";
 
 
 export default defineComponent({
   name: "kt-c",
-  components: {Table},
+  components: {
+    Table, SelectPickUpDate
+  },
   data() {
     return {
       getAssetPath,
