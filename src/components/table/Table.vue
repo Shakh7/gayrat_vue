@@ -323,7 +323,7 @@ export default defineComponent({
     return {
       api_data: [],
       is_fetching_data: false,
-      debounceTimeout: 500,
+      debounceTimeout: 300,
       active_page: 1,
       data_count: 0,
       per_page: this.per_page_options[0] || 10,
