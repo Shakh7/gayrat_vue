@@ -107,7 +107,7 @@ export default defineComponent({
       getAssetPath,
       table: {
         title: "Quotes",
-        api_url: "quotes/list/",
+        api_url: "quotes/list",
         show_label_underneath_data: true,
         table_striped: false,
         table_hover: true,
