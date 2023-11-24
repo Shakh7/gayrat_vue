@@ -1,28 +1,8 @@
 <template>
   <Table v-bind="table">
-    <template v-slot:departure_value="{row: data}">
+    <template v-slot:created_at_value="{row: data}">
       <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
-        {{ getData(data).departure.summary }}
-      </a>
-    </template>
-    <template v-slot:destination_value="{row: data}">
-      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
-        {{ getData(data).destination.summary }}
-      </a>
-    </template>
-    <template v-slot:transport_type_value="{row: data}">
-      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
-        {{ getData(data).transport_type }}
-      </a>
-    </template>
-    <template v-slot:vehicle_value="{row: data}">
-      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
-        {{ getData(data).vehicle.summary }}
-      </a>
-    </template>
-    <template v-slot:pick_up_value="{row: data}">
-      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
-        {{ getData(data).pick_up.summary }}
+        {{ formatDate(getData(data).created_at) }}
       </a>
     </template>
     <template v-slot:shipper_value="{row: data}">
@@ -64,10 +44,48 @@
         </VMenu>
       </span>
     </template>
-    <template v-slot:created_at_value="{row: data}">
+    <template v-slot:pick_up_value="{row: data}">
       <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
-        {{ formatDate(getData(data).created_at) }}
+        {{ getData(data).pick_up.summary }}
       </a>
+    </template>
+    <template v-slot:vehicle_value="{row: data}">
+      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
+        {{ getData(data).vehicle.summary }}
+      </a>
+    </template>
+    <template v-slot:departure_value="{row: data}">
+      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
+        <i class="ki-duotone ki-geolocation ">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+        {{ getData(data).departure.summary }}
+      </a>
+    </template>
+    <template v-slot:destination_value="{row: data}">
+      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
+        {{ getData(data).destination.summary }}
+      </a>
+    </template>
+    <template v-slot:transport_type_value="{row: data}">
+      <a class="text-gray-900 fw-bold text-hover-primary d-block mb-1 fs-6">
+        {{ getData(data).transport_type }}
+      </a>
+    </template>
+    <template v-slot:is_operable_value="{row: data}">
+      <i class="fa-solid fa-square-check text-primary fs-3 align-middle me-2"
+         :class="{
+        'fa-square-check text-primary': getData(data).vehicle.is_operable,
+        'fa-square-xmark text-danger': !getData(data).vehicle.is_operable
+         }"
+      ></i>
+      <span class="badge mb-1"
+            :class="{
+        'badge-light-primary' : getData(data).vehicle.is_operable,
+        'badge-light-danger' : !getData(data).vehicle.is_operable
+            }"
+      >{{ getData(data).vehicle.is_operable ? 'Yes' : 'No' }}</span>
     </template>
   </Table>
 </template>
@@ -147,6 +165,27 @@ export default defineComponent({
             style: {
               minWidth: '160px',
               maxWidth: '200px',
+            }
+          },
+          {
+            label: "Times Shared",
+            field: "lead_conversion_count",
+            style: {
+              minWidth: '80px',
+              maxWidth: '160px',
+            }
+          },
+          {
+            label: "Is Operable",
+            field: "is_operable",
+            search_type: 'select',
+            options: [
+              {label: 'Yes', value: "true"},
+              {label: 'No', value: "false"},
+            ],
+            style: {
+              minWidth: '60px',
+              maxWidth: '120px',
             }
           },
         ] as Header[]

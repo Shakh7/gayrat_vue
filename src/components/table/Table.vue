@@ -111,9 +111,7 @@
                     }"
                     :style="{cursor: header.searchable === false ? 'not-allowed': 'auto'}"
                 >
-                  <option value="">
-                    {{ translate('all') }} {{ translate(header.label) }}
-                  </option>
+                  <option value="">All</option>
                   <option v-for="(item, index) in header.options" :key="`option_${index}_${item.value}`"
                           :value="item.value">
                     {{ translate(item.label) }}
