@@ -171,8 +171,8 @@ export default defineComponent({
             label: "Times Shared",
             field: "lead_conversion_count",
             style: {
-              minWidth: '80px',
-              maxWidth: '160px',
+              minWidth: '120px',
+              maxWidth: '180px',
             }
           },
           {
